@@ -1,0 +1,19 @@
+{
+  "Routes": [
+    {
+      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "UpstreamPathTemplate": "/posts/{postId}",
+      "DownstreamPathTemplate": "/api/posts/{postId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 80
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://api.mybusiness.com"
+  }
+}
