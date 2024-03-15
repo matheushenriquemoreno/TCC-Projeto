@@ -19,7 +19,7 @@ namespace Produto.DTO.ProdutoDTOS
                 TypeAdapterConfig<ProdutoInputDTO, Entities.Produto>.NewConfig()
                 .BeforeMapping((a,b) =>
                 {
-                    b.Imagens = a.UrlImagens.Select(x => new Imagem() { Url = x }).ToList();
+                    b.Imagens = a.UrlImagens.Select(x => new Imagem() { Url = x, Produto = b }).ToList();
                 });
         }
     }

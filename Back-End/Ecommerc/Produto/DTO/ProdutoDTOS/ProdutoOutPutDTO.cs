@@ -12,7 +12,6 @@ namespace Produto.DTO.ProdutoDTOS
         public int QuantidadeEstoque { get; set; }
         public List<string> UrlImagens { get; set; } = new List<string>();
 
-
         public void Mapear()
         {
             TypeAdapterConfig<Entities.Produto, ProdutoOutPutDTO>.NewConfig()

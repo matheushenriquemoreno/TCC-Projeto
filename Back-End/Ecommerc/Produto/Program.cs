@@ -4,8 +4,10 @@ using Application.Interfaces.Mapeamento;
 using Application.MapingConfig;
 using Infra.Data.Context;
 using Mapster;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Middleware;
 using Produto.Repository.Context;
 using Produto.Repository.Implementacoes;
 using Produto.Repository.Interfaces;
@@ -40,9 +42,22 @@ builder.Services.AddScoped<IProdutoService, ProdutoService>();
 
 ConfigurarMapeamento.Configure(Assembly.GetExecutingAssembly());
 
+builder.Services
+    .AddCors(options =>
+    {
+        options.AddPolicy("CorsPolicy", policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+    });
+
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -52,6 +67,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("CorsPolicy");
+
+app.UseMiddleware<ErrorMiddleware>();
 
 app.MapControllers();
 

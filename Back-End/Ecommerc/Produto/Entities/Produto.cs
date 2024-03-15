@@ -27,10 +27,4 @@ namespace Produto.Entities
             IdCategoria = idCategoria;
         }
     }
-
-    public class Imagem
-    {
-        public string Url { get; set; }
-    }
-
 }

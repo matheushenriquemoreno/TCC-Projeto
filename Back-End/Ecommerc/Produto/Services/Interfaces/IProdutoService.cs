@@ -8,5 +8,7 @@ namespace Produto.Services.Interfaces
     public interface IProdutoService : IServiceBase<
         Entities.Produto, ProdutoInputDTO, ProdutoOutPutDTO, IRepositoryProduto>
     {
+
+        public Task<List<ProdutoVenda>> ObterProdutosPorCategoria(int categoriaId);
     }
 }

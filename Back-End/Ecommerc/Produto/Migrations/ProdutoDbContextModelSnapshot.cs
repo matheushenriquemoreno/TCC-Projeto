@@ -42,6 +42,28 @@ namespace Produto.Migrations
                     b.ToTable("Categoria");
                 });
 
+            modelBuilder.Entity("Produto.Entities.Imagem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IdProduto")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdProduto");
+
+                    b.ToTable("Imagem");
+                });
+
             modelBuilder.Entity("Produto.Entities.Produto", b =>
                 {
                     b.Property<int>("Id")
@@ -60,8 +82,8 @@ namespace Produto.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18,2)");
@@ -76,6 +98,17 @@ namespace Produto.Migrations
                     b.ToTable("Produto");
                 });
 
+            modelBuilder.Entity("Produto.Entities.Imagem", b =>
+                {
+                    b.HasOne("Produto.Entities.Produto", "Produto")
+                        .WithMany("Imagens")
+                        .HasForeignKey("IdProduto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Produto");
+                });
+
             modelBuilder.Entity("Produto.Entities.Produto", b =>
                 {
                     b.HasOne("Produto.Entities.Categoria", "Categoria")
@@ -84,36 +117,17 @@ namespace Produto.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("Produto.Entities.Imagem", "Imagens", b1 =>
-                        {
-                            b1.Property<int>("ProdutoId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Url")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("ProdutoId", "Id");
-
-                            b1.ToTable("Produto");
-
-                            b1.ToJson("Imagens");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ProdutoId");
-                        });
-
                     b.Navigation("Categoria");
-
-                    b.Navigation("Imagens");
                 });
 
             modelBuilder.Entity("Produto.Entities.Categoria", b =>
                 {
                     b.Navigation("Produtos");
+                });
+
+            modelBuilder.Entity("Produto.Entities.Produto", b =>
+                {
+                    b.Navigation("Imagens");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,14 +1,15 @@
 {
   "Routes": [
     {
-      "UpstreamHttpMethod": [ "Put", "Delete" ],
-      "UpstreamPathTemplate": "/posts/{postId}",
-      "DownstreamPathTemplate": "/api/posts/{postId}",
+      "UpstreamHttpMethod": [ "get" ],
+      "UpstreamPathTemplate": "/gatway/{postId}",
+      "DownstreamPathTemplate": "/api/Produto?id={postId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 80
+          "Port": 7017
+
         }
       ]
     }

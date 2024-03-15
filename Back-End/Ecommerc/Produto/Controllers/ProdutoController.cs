@@ -1,8 +1,8 @@
 ﻿using Domain.Entites.Paginacao;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Produto.DTO.ProdutoDTOS;
 using Produto.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Produto.Controllers
 {
@@ -16,7 +16,6 @@ namespace Produto.Controllers
         {
             _service = service;
         }
-
 
         [HttpPost]
         public async Task<IActionResult> AdicionarProduto(ProdutoInputDTO produto)
@@ -32,7 +31,7 @@ namespace Produto.Controllers
             return Ok(categorias);
         }
 
-        [HttpGet("Id:int")]
+        [HttpGet]
         public async Task<IActionResult> ObterPorId(int id) => Ok(await _service.ObterPeloId(id));
 
         [HttpPut]
@@ -49,7 +48,11 @@ namespace Produto.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("ObterTodos")]
         public async Task<IActionResult> ListarProdutos() => Ok(await _service.ObterTodos());
+
+        [HttpGet("ObterProdutosPorCategoria")]
+        public async Task<IActionResult> ObterProdutosPorCategoria(int Id) => Ok(await _service.ObterProdutosPorCategoria(Id));
+
     }
 }

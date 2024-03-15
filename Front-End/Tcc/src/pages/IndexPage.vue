@@ -1,49 +1,48 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page class="row">
+    <div class="col-12 text-center">
+      <div class="q-pa-sm rounded-1 q-mb-sm">
+        <q-carousel
+          animated
+          v-model="slide"
+          arrows
+          navigation
+          infinite
+          style="height: 650px"
+          @click="() => rotas.push('/produtos')"
+        >
+          <q-carousel-slide
+            :name="1"
+            img-src="https://imgcentauro-a.akamaihd.net/05_Campanhas/2024/SeuEsporte/primaria/desk_reduzido.jpg"
+          />
+          <q-carousel-slide :name="2" :img-src="image" />
+          <q-carousel-slide :name="3" :img-src="image2" />
+        </q-carousel>
+      </div>
+      <span class="text-h4"> Aproveite as melhores ofertas</span>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
+
+import image from 'src/assets/foto-1.jpg';
+import image2 from 'src/assets/foto-2.jpg';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent },
-  setup () {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
-    });
-    return { todos, meta };
-  }
+  components: {},
+  setup() {
+    const rotas = useRouter();
+
+    return {
+      slide: ref(1),
+      rotas,
+      image,
+      image2,
+    };
+  },
 });
 </script>

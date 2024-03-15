@@ -1,145 +1,81 @@
 <template>
-  <q-layout class="bg-grey-1">
+  <q-layout>
     <q-header
-      elevated
-      class="text-white"
-      style="background: #24292e"
-      height-hint="61.59"
+      bordered
+      class="text-dark"
+      style="background: #fff; max-height: 500px"
     >
-      <q-toolbar class="q-py-sm q-px-md">
-        <q-btn
-          round
-          dense
-          flat
-          :ripple="false"
-          :icon="fabGithub"
-          size="19px"
-          color="white"
-          class="q-mr-sm"
-          no-caps
-        />
-
+      <!--Page parte 1-->
+      <q-toolbar class="q-pa-sm row justify-center">
         <q-select
-          ref="search"
-          dark
+          style="width: 290px; border-radius: 20px"
+          label="O que deseja procurar?"
+          color="dark"
+          outlined
           dense
-          standout
-          use-input
-          hide-selected
-          class="GL__toolbar-select"
-          color="black"
-          :stack-label="false"
-          label="Search or jump to..."
           v-model="text"
-          :options="filteredOptions"
-          @filter="filter"
-          style="width: 300px"
+          :options="options"
         >
           <template v-slot:append>
-            <img
-              src="https://cdn.quasar.dev/img/layout-gallery/img-github-search-key-slash.svg"
-            />
-          </template>
-
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section>
-                <div class="text-center">
-                  <q-spinner-pie color="grey-5" size="24px" />
-                </div>
-              </q-item-section>
-            </q-item>
-          </template>
-
-          <template v-slot:option="scope">
-            <q-item v-bind="scope.itemProps" class="GL__select-GL__menu-link">
-              <q-item-section side>
-                <q-icon name="collections_bookmark" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label> {{ scope.opt.label }} </q-item-label>
-              </q-item-section>
-              <q-item-section side :class="{ 'default-type': !scope.opt.type }">
-                <q-btn
-                  outline
-                  dense
-                  no-caps
-                  text-color="blue-grey-5"
-                  size="12px"
-                  class="bg-grey-1 q-px-sm"
-                >
-                  {{ scope.opt.type || 'Jump to' }}
-                  <q-icon name="subdirectory_arrow_left" size="14px" />
-                </q-btn>
-              </q-item-section>
-            </q-item>
+            <q-icon name="search" color="teal" />
           </template>
         </q-select>
+        <q-item>
+          <q-item-section side>
+            <q-icon name="account_circle" color="teal" rounded size="48px" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Olá, bem vindo(a)</q-item-label>
+            <q-item-label
+              @click="() => console.log('teste')"
+              style="cursor: pointer"
+              caption
+              >Entrar / Cadastrar</q-item-label
+            >
+          </q-item-section>
+        </q-item>
+        <q-btn square flat size="19px" color="teal" icon="shopping_cart">
+          <template v-slot:default>
+            <q-avatar class="q-ml-sm" color="teal" text-color="white"
+              >1</q-avatar
+            >
+          </template>
+        </q-btn>
+      </q-toolbar>
+      <!--Page parte 2-->
+      <q-toolbar class="row justify-center q-gutter-x-xl">
+        <q-btn flat dense push @click="() => rotas.push('/produtos/21')">
+          <div class="row items-center no-wrap">
+            <q-icon left name="sports_tennis" color="teal" />
+            <div class="text-center text-overline">beach tennis</div>
+          </div>
+        </q-btn>
 
-        <div
-          v-if="$q.screen.gt.sm"
-          class="GL__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap"
-        >
-          <a href="javascript:void(0)" class="text-white"> Pull requests </a>
-          <a href="javascript:void(0)" class="text-white"> Issues </a>
-          <a href="javascript:void(0)" class="text-white"> Marketplace </a>
-          <a href="javascript:void(0)" class="text-white"> Explore </a>
-        </div>
-
-        <q-space />
-
-        <div class="q-pl-sm q-gutter-sm row items-center no-wrap">
-          <q-btn
-            v-if="$q.screen.gt.xs"
-            dense
-            flat
-            round
-            size="sm"
-            icon="notifications"
-          />
-          <q-btn v-if="$q.screen.gt.xs" dense flat>
-            <div class="row items-center no-wrap">
-              <q-icon name="add" size="20px" />
-              <q-icon
-                name="arrow_drop_down"
-                size="16px"
-                style="margin-left: -2px"
-              />
-            </div>
-            <q-menu auto-close>
-              <q-list dense style="min-width: 100px">
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>New repository</q-item-section>
-                </q-item>
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>Import repository</q-item-section>
-                </q-item>
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>New gist</q-item-section>
-                </q-item>
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>New organization</q-item-section>
-                </q-item>
-                <q-separator />
-                <q-item-label header>This repository</q-item-label>
-                <q-item clickable class="GL__menu-link">
-                  <q-item-section>New issue</q-item-section>
-                </q-item>
-              </q-list>
-            </q-menu>
-          </q-btn>
-
-          <q-btn dense flat no-wrap>
-            <q-avatar rounded size="20px">
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg" />
-            </q-avatar>
-            <q-icon name="arrow_drop_down" size="16px" />
+        <!---->
+        <q-btn flat dense push @click="() => rotas.push('/produtos/22')">
+          <div class="row items-center no-wrap">
+            <q-icon left name="sports_soccer" color="teal" />
+            <div class="text-center text-overline">Futebol</div>
+          </div>
+        </q-btn>
+        <!---->
+        <q-btn flat dense push @click="() => rotas.push('/produtos/23')">
+          <div class="row items-center no-wrap">
+            <q-icon left name="directions_bike" color="teal" />
+            <div class="text-center text-overline">Ciclismo</div>
+          </div>
+        </q-btn>
+        <!---->
+        <q-btn flat dense push>
+          <div class="row items-center no-wrap">
+            <div class="text-center text-overline">Outro esportes</div>
+            <q-icon name="expand_more" size="16px" class="q-ml-sm" />
 
             <q-menu auto-close>
               <q-list dense>
                 <q-item class="GL__menu-link-signed-in">
                   <q-item-section>
-                    <div>Signed in as <strong>Mary</strong></div>
+                    <div>Seja Bem vindo! <strong>Matheus</strong></div>
                   </q-item-section>
                 </q-item>
                 <q-separator />
@@ -179,10 +115,14 @@
                 </q-item>
               </q-list>
             </q-menu>
-          </q-btn>
-        </div>
+          </div>
+        </q-btn>
       </q-toolbar>
     </q-header>
+
+    <!--Carinho -->
+
+
 
     <q-page-container>
       <router-view />
@@ -192,12 +132,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { fabGithub } from '@quasar/extras/fontawesome-v6';
-
-const stringOptions = [
-  'quasarframework/quasar',
-  'quasarframework/quasar-awesome',
-];
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -209,53 +144,16 @@ export default defineComponent({
     const options = ref<any>();
     const filteredOptions = ref<any>([]);
     const search = ref<any>(null); // $refs.search
-
-    function filter(val: any, update: any) {
-      if (options.value === null) {
-        // load data
-        setTimeout(() => {
-          options.value = stringOptions;
-          search.value.filter('');
-        }, 2000);
-        update();
-        return;
-      }
-
-      if (val === '') {
-        update(() => {
-          filteredOptions.value = options.value.map((op: any) => ({
-            label: op,
-          }));
-        });
-        return;
-      }
-
-      update(() => {
-        filteredOptions.value = [
-          {
-            label: val,
-            type: 'In this repository',
-          },
-          {
-            label: val,
-            type: 'All GitHub',
-          },
-          ...options.value
-            .filter((op: any) => op.toLowerCase().includes(val.toLowerCase()))
-            .map((op: any) => ({ label: op })),
-        ];
-      });
-    }
+    const rotas = useRouter();
+    const showCarinho = ref(true);
 
     return {
-      fabGithub,
-
       text,
       options,
+      rotas,
       filteredOptions,
       search,
-
-      filter,
+      showCarinho,
     };
   },
 });

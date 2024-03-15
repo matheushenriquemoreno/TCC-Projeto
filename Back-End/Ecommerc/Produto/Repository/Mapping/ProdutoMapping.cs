@@ -11,15 +11,14 @@ namespace Produto.Repository.Mapping
             builder.HasKey(p => p.Id);
             builder.Property(p => p.QuantidadeEstoque).IsRequired();
             builder.Property(p => p.Preco).IsRequired();
-            builder.Property(p => p.Nome).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.Nome).IsRequired().HasMaxLength(250);
             builder.Property(p => p.Descricao).IsRequired().HasMaxLength(1000);
 
-            builder.OwnsMany(
-            produto => produto.Imagens,
-            ownedNavigationBuilder =>
-            {
-                ownedNavigationBuilder.ToJson();
-            });
+            builder.Navigation(x => x.Imagens).AutoInclude();
+
+            builder.HasMany(p => p.Imagens)
+                .WithOne(i => i.Produto)
+                .HasForeignKey(i => i.IdProduto);
 
             builder.HasOne(x => x.Categoria).
                  WithMany(c => c.Produtos)
