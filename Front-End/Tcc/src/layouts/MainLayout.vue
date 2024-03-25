@@ -20,25 +20,100 @@
             <q-icon name="search" color="teal" />
           </template>
         </q-select>
-        <q-item>
+
+        <!-- sessão usuario -->
+
+        <q-item v-if="usuarioEstaLogado === false">
           <q-item-section side>
             <q-icon name="account_circle" color="teal" rounded size="48px" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Olá, bem vindo(a)</q-item-label>
             <q-item-label
-              @click="() => console.log('teste')"
+              @click="() => rotas.push('/login')"
               style="cursor: pointer"
               caption
               >Entrar / Cadastrar</q-item-label
             >
           </q-item-section>
         </q-item>
-        <q-btn square flat size="19px" color="teal" icon="shopping_cart">
+        <q-item v-else style="cursor: pointer">
+          <q-item-section side>
+            <q-avatar size="48px">
+              <q-img :src="avatar" />
+            </q-avatar>
+          </q-item-section>
+          <q-item-section>
+            <q-btn flat dense>
+              <div class="row items-center no-wrap">
+                <div class="text-center text-overline">
+                  Olá, {{ usuarioLogado?.nome }}
+                </div>
+                <q-icon name="expand_more" size="16px" class="q-ml-sm" />
+
+                <q-menu auto-close>
+                  <q-list dense>
+                    <q-item class="GL__menu-link-signed-in">
+                      <q-item-section>
+                        <div>Seja Bem vindo!</div>
+                      </q-item-section>
+                    </q-item>
+                    <q-separator />
+                    <q-item
+                      clickable
+                      class="GL__menu-link"
+                      to="/usuario/editar"
+                    >
+                      <q-item-section>
+                        <div>
+                          <q-icon name="person" />
+                          Meu perfil
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                    <q-item
+                      clickable
+                      class="GL__menu-link"
+                      to="/usuario/pedidos"
+                    >
+                      <q-item-section>
+                        <div>
+                          <q-icon name="grading" />
+                          Meus Pedidos
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                    <q-item
+                      clickable
+                      class="GL__menu-link"
+                      @click="() => storeUsuarioLogado.logout()"
+                    >
+                      <q-item-section>
+                        <div>
+                          <q-icon name="logout" />
+                          Sair
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </div>
+            </q-btn>
+          </q-item-section>
+        </q-item>
+        <!-- fim -->
+        <q-btn
+          square
+          flat
+          size="19px"
+          color="teal"
+          icon="shopping_cart"
+          @click="() => (showCarinho = !showCarinho)"
+        >
           <template v-slot:default>
-            <q-avatar class="q-ml-sm" color="teal" text-color="white"
-              >1</q-avatar
-            >
+            <q-avatar class="q-ml-sm" color="teal" text-color="white">{{
+              itensCarinho
+            }}</q-avatar>
           </template>
         </q-btn>
       </q-toolbar>
@@ -121,9 +196,7 @@
     </q-header>
 
     <!--Carinho -->
-
-
-
+    <CarinhoCompras v-model:show-carinho="showCarinho" />
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -131,29 +204,49 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import useUsuarioLogado from 'src/stores/UsuarioLogadoStore';
+import { computed, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import CarinhoCompras from 'src/components/Carrinho/CarinhoCompras.vue';
+
+import avatar from 'src/assets/avatar.jpg';
+import { useCarinhoCompraStore } from 'src/stores/CarinhoCompraStore';
 
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {},
+  components: { CarinhoCompras },
 
   setup() {
+    const carinhoStore = useCarinhoCompraStore();
+    carinhoStore.obterCarinho();
+
     const text = ref('');
     const options = ref<any>();
     const filteredOptions = ref<any>([]);
-    const search = ref<any>(null); // $refs.search
+    const search = ref<any>(null);
     const rotas = useRouter();
-    const showCarinho = ref(true);
+    const showCarinho = ref(false);
+    const storeUsuarioLogado = useUsuarioLogado();
+
+    const usuarioEstaLogado = computed(() =>
+      storeUsuarioLogado.usuarioEstaLogado()
+    );
+    const itensCarinho = computed(() => carinhoStore.quantidadeItens);
+    const usuarioLogado = computed(() => storeUsuarioLogado.obterUsuario());
 
     return {
+      itensCarinho,
+      avatar,
+      usuarioLogado,
+      usuarioEstaLogado,
       text,
       options,
       rotas,
       filteredOptions,
       search,
       showCarinho,
+      storeUsuarioLogado,
     };
   },
 });

@@ -16,14 +16,14 @@ namespace Cliente.Services.Services
             this.jwtConfiguration = jwtConfiguration;
         }
 
-        public string ObterTokenLogin(string usuario)
+        public string ObterTokenLogin(Entities.Cliente cliente)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Email, usuario)
+                new Claim(ClaimTypes.Email, cliente.Email)
             };
 
             var Sectoken = new JwtSecurityToken(issuer: jwtConfiguration.Issuer,

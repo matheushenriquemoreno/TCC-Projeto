@@ -2,7 +2,7 @@
 
 namespace Cliente.DTO.ClienteDTO;
 
-public class ClienteInput : IInputEntity<Entities.Cliente>
+public class ClienteCreate : IInputEntity<Entities.Cliente>
 {
     public int? Id { get; set; }
     public string Email { get; set; }
@@ -13,8 +13,8 @@ public class ClienteInput : IInputEntity<Entities.Cliente>
     public int Genero { get; set; }
     public string Senha { get; set; }
 
+
     public void Mapear()
     {
-
     }
 }

@@ -1,12 +1,12 @@
 <template>
   <q-layout view="hHh lpR fFf" class="shadow-2 rounded-borders">
-    <q-header elevated class="bg-dark text-white">
+    <q-header elevated class="bg-teal-5 text-dark">
       <q-toolbar>
         <q-toolbar-title class="text-center">
           <q-avatar>
             <img :src="logo" />
           </q-avatar>
-          Loja Esportiva
+          <span class="text-weight-bolder q-ml-sm">Ecommerce Esportivo</span>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -14,13 +14,6 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-    <!--
-    <q-footer class="text-white text-center" style="background: #e2e2e5">
-      <q-avatar style="height: 100%; width: 80px">
-        <q-img :src="logo" />
-      </q-avatar>
-    </q-footer>
-    -->
   </q-layout>
 </template>
 

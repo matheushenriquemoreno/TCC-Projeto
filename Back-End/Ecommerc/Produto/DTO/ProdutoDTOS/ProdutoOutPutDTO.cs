@@ -3,15 +3,8 @@ using Mapster;
 
 namespace Produto.DTO.ProdutoDTOS
 {
-    public class ProdutoOutPutDTO : IOutPutEntity<Entities.Produto>
+    public class ProdutoOutPutDTO : ProdutoInputDTO, IOutPutEntity<Entities.Produto>
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Descricao { get; set; }
-        public decimal Preco { get; set; }
-        public int QuantidadeEstoque { get; set; }
-        public List<string> UrlImagens { get; set; } = new List<string>();
-
         public void Mapear()
         {
             TypeAdapterConfig<Entities.Produto, ProdutoOutPutDTO>.NewConfig()

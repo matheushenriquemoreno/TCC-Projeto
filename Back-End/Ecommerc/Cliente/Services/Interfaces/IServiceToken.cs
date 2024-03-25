@@ -2,6 +2,6 @@
 {
     public interface IServiceToken
     {
-        public string ObterTokenLogin(string usuario);
+        public string ObterTokenLogin(Entities.Cliente cliente);
     }
 }

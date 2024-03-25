@@ -5,10 +5,39 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
+      {
+        path: '',
+        name: 'IndexPage',
+        component: () => import('pages/IndexPage.vue'),
+      },
       {
         path: '/produtos/:IdCategoria',
         component: () => import('src/pages/produtos.vue'),
+      },
+      {
+        path: '/CarinhoCompra',
+        component: () => import('src/pages/CarinhoCompraPage.vue'),
+      },
+      {
+        path: '/usuario',
+        component: () => import('src/pages/Usuario/GuiaUsuario.vue'),
+        children: [
+          {
+            path: 'editar',
+            name: 'EditarCliente',
+            component: () => import('src/pages/Usuario/EditarUsuario.vue'),
+          },
+          {
+            path: 'pedidos',
+            name: 'pedidos',
+            component: () => import('src/pages/Usuario/UsuarioPedidos.vue'),
+          },
+          {
+            path: 'enderecos',
+            name: 'enderecos',
+            component: () => import('src/pages/Usuario/UsuarioEnderecos.vue'),
+          },
+        ],
       },
     ],
   },

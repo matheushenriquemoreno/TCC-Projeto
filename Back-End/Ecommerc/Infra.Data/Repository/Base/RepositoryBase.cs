@@ -33,6 +33,11 @@ namespace Infra.Data.Repository.Base
             return Task.FromResult<IEnumerable<T>>(dados);
         }
 
+        public Task<T> ObterOnde(Expression<Func<T, bool>> expression)
+        {
+            return Entidade().AsNoTracking().FirstOrDefaultAsync(expression);
+        }
+
         public virtual async Task<IEnumerable<T>> ObterTodosAsync()
         {
             return await Entidade()
@@ -48,7 +53,7 @@ namespace Infra.Data.Repository.Base
             return entidade;
         }
 
-        public async  Task Remover(T entidade)
+        public async Task Remover(T entidade)
         {
             _context.Remove(entidade);
             await Salvar();
@@ -59,10 +64,10 @@ namespace Infra.Data.Repository.Base
             Entidade().Attach(entidade);
             _context.Entry(entidade).State = EntityState.Modified;
             await Salvar();
-            return entidade;
+            return await Entidade().FirstOrDefaultAsync(x => x.Id == entidade.Id);
         }
 
-        private async Task Salvar()
+        protected async Task Salvar()
         {
             await _context.SaveChangesAsync();
         }

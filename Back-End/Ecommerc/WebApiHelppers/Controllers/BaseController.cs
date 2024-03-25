@@ -22,31 +22,31 @@ namespace WebApiHelppers.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar([FromBody]TInput entity)
+        public virtual async Task<IActionResult> Adicionar([FromBody]TInput entity)
         {
             await _service.Adicionar(entity);
             return Ok();
         }
 
         [HttpGet("ObterDadosPaginados")]
-        public async Task<IActionResult> ObterDadosPaginados([FromQuery] Paginacao paginacao)
+        public virtual async Task<IActionResult> ObterDadosPaginados([FromQuery] Paginacao paginacao)
         {
             var categorias = await _service.ObterPaginadosAsync(paginacao);
             return Ok(categorias);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ObterPorId(int id) => Ok(await _service.ObterPeloId(id));
+        [HttpGet("{id:int}")]
+        public virtual async Task<IActionResult> ObterPorId(int id) => Ok(await _service.ObterPeloId(id));
 
         [HttpPut]
-        public async Task<IActionResult> Atualizar([FromBody] TInput entity)
+        public virtual async Task<IActionResult> Atualizar([FromBody] TInput entity)
         {
             await _service.Atualizar(entity);
             return Ok();
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Remover(int id)
+        public virtual async Task<IActionResult> Remover(int id)
         {
             await _service.Remover(id);
             return Ok();

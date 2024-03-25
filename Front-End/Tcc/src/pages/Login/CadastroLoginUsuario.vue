@@ -71,7 +71,6 @@
                   placeholder="(##) ##### - ####"
                   lazy-rules
                   mask="(##) ##### - ####"
-                  unmasked-value
                 />
               </div>
               <div class="col-11 q-mb-sm q-mt-none">
@@ -110,6 +109,11 @@
                   :type="isPwd ? 'password' : 'text'"
                   :rules="[
                     (val) => (val && val.length >= 8) || 'Campo obrigatorio',
+                    (val) =>
+                      (val &&
+                        val.length >= 8 &&
+                        verificarForcaSenha(val) == 1) ||
+                      'Necessario uma senha forte',
                   ]"
                 >
                   <template v-slot:append>
@@ -120,7 +124,10 @@
                     />
                   </template>
                 </q-input>
-                <div v-if="usuario.senha && usuario.senha.length > 0">
+                <div
+                  class="q-mt-sm"
+                  v-if="usuario.senha && usuario.senha.length > 0"
+                >
                   <q-linear-progress
                     :value="forcaSenha"
                     class="q-mt-none"
@@ -142,6 +149,12 @@
               type="submit"
               style="width: 75%"
             />
+            <span
+              class="text-dark text-center col-11 q-mt-lg"
+              style="cursor: pointer"
+              @click="router.push('/Login')"
+              >Ja possui conta?</span
+            >
           </q-card-actions>
         </q-form>
       </q-card>
@@ -150,12 +163,15 @@
 </template>
 
 <script lang="ts">
+import { useQuasar } from 'quasar';
 import { Cliente } from 'src/services/interfaces/Cliente';
 import ObterServiceCliente from 'src/services/serviceCliente';
+import useUsuarioLogado from 'src/stores/UsuarioLogadoStore';
 import { computed, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import CadastroUsuario from 'src/components/Usuario/CadastroUsuario.vue';
 
-function verificarForcaSenha(senha: string) {
+function verificarForcaSenha(senha: string): number {
   // Verificar comprimento mínimo
   if (senha.length < 8) {
     return 0; // Muito fraca
@@ -179,7 +195,6 @@ function verificarForcaSenha(senha: string) {
 }
 
 function converterDataBRParaDate(dataBR: string) {
-  debugger;
   // Divide a string da data em dia, mês e ano
   var partes = dataBR.split('/');
 
@@ -203,30 +218,6 @@ export default defineComponent({
   name: 'CadastroUsuario',
   components: {},
   setup() {
-    const service = ObterServiceCliente();
-    const router = useRouter();
-
-    async function onSubmit() {
-      console.log(usuario.value);
-
-      const clienteAdicionar: Cliente = {
-        cpf: usuario.value.cpf,
-        email: usuario.value.email,
-        genero: parseInt(usuario.value.genero),
-        nomeCompleto: usuario.value.nome,
-        telefone: usuario.value.telefone,
-        senha: usuario.value.telefone,
-        dataNascimento: converterDataBRParaDate(usuario.value.dataNascimento),
-      };
-
-      await service.cadastrarCliente(clienteAdicionar);
-    }
-
-    const validaEmail = (email: string) => {
-      return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-      );
-    };
     const usuario = ref({
       email: '',
       cpf: '',
@@ -236,6 +227,43 @@ export default defineComponent({
       genero: '',
       senha: '',
     });
+
+    const service = ObterServiceCliente();
+    const router = useRouter();
+    const $q = useQuasar();
+
+    const usuarioLogadoStore = useUsuarioLogado();
+
+    async function onSubmit() {
+      const clienteAdicionar: Cliente = {
+        cpf: usuario.value.cpf,
+        email: usuario.value.email,
+        genero: parseInt(usuario.value.genero),
+        nomeCompleto: usuario.value.nome,
+        telefone: usuario.value.telefone,
+        senha: usuario.value.senha,
+        dataNascimento: converterDataBRParaDate(usuario.value.dataNascimento),
+      };
+
+      const result = await service.cadastrarCliente(clienteAdicionar);
+
+      if (result) {
+        $q.notify({
+          message: 'Cadastro realizado com sucesso!',
+          caption: 'Bem vindo(a)',
+          type: 'positive',
+        });
+
+        usuarioLogadoStore.inserirUsuario(result);
+        router.push({ name: 'IndexPage' });
+      }
+    }
+
+    const validaEmail = (email: string) => {
+      return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+      );
+    };
 
     const forcaSenha = computed(() => {
       return verificarForcaSenha(usuario.value.senha);
@@ -255,8 +283,10 @@ export default defineComponent({
       (val: string) => validaEmail(val) || 'Digite um e-mail Valido',
     ];
     return {
+      verificarForcaSenha,
       onSubmit,
       usuario,
+      router,
       isPwd: ref(true),
       rules,
       rulesEmail,

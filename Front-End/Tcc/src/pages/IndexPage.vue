@@ -9,7 +9,6 @@
           navigation
           infinite
           style="height: 650px"
-          @click="() => rotas.push('/produtos')"
         >
           <q-carousel-slide
             :name="1"

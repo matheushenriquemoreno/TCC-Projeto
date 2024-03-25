@@ -15,6 +15,8 @@ namespace Cliente.Repository.Maping
             builder.Property(x => x.Email).IsRequired().HasMaxLength(1200);
             builder.Property(x => x.CPF).IsRequired().HasMaxLength(11);
 
+            builder.Navigation(x => x.Endereco).AutoInclude();
+
                     builder.HasOne(x => x.Endereco)
                 .WithOne(x => x.Cliente)
                 .HasForeignKey<Entities.Cliente>(x => x.IdEndereco).IsRequired(false);

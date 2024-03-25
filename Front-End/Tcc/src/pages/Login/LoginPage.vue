@@ -9,28 +9,24 @@
       </div>
       <div class="right row">
         <div class="col-12">
-          <q-form class="row justify-center q-mt-lg">
+          <q-form @submit.prevent="onSubmit" class="row justify-center q-mt-lg">
             <q-input
               filled
               class="col-11 q-mt-sm"
               v-model="email"
               label="E-mail"
               lazy-rules
-              :rules="[
-                (val) => (val && val.length > 0) || 'Please type something',
-              ]"
+              :rules="[(val) => (val && val.length > 0) || 'Digite seu e-mail']"
             />
 
             <q-input
               class="col-11 q-mt-sm"
               label="Senha * (8 ou mais caracteres)"
-              v-model="senha"
+              v-model.trim="senha"
               filled
               lazy-rules
               :type="isPwd ? 'password' : 'text'"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Please type something',
-              ]"
+              :rules="[(val) => (val && val.length > 0) || 'Digite sua senha']"
             >
               <template v-slot:append>
                 <q-icon
@@ -40,11 +36,17 @@
                 />
               </template>
             </q-input>
-            <q-btn class="col-11 q-mt-lg" color="grey" label="Logar" />
+            <q-btn
+              class="col-11 q-mt-lg"
+              color="grey"
+              label="Logar"
+              type="submit"
+            />
 
             <span
               class="text-dark text-center col-11 q-mt-lg"
               style="cursor: pointer"
+              @click="router.push('/cadastro')"
               >Ainda não possui conta?</span
             >
           </q-form>
@@ -56,32 +58,57 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-
 import logo from 'src/assets/Logo-4.jpg';
 import { useRouter } from 'vue-router';
-import { log } from 'console';
+import ObterServiceCliente from 'src/services/serviceCliente';
+import { LoginUser } from 'src/services/interfaces/Cliente';
+import useUsuarioLogado from 'src/stores/UsuarioLogadoStore';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
-  name: 'IndexPage',
+  name: 'LoginPage',
   components: {},
   setup() {
-    const rotas = useRouter();
-    const email = ref(null);
-    const senha = ref(null);
+    const email = ref<string>('');
+    const senha = ref<string>('');
+    const router = useRouter();
+    const serviceCliente = ObterServiceCliente();
+    const usuarioLogadoStore = useUsuarioLogado();
+    const $q = useQuasar();
+
+    async function onSubmit() {
+      const dadosLogin: LoginUser = {
+        email: email.value,
+        senha: senha.value,
+      };
+
+      const result = await serviceCliente.logar(dadosLogin);
+
+      if (result) {
+        $q.notify({
+          message: 'Login realizado com sucesso!',
+          caption: 'Bem vindo(a)',
+          type: 'positive',
+        });
+
+        usuarioLogadoStore.inserirUsuario(result);
+        router.push({ name: 'IndexPage' });
+      }
+    }
 
     return {
+      router,
       logo,
       isPwd: ref(true),
       email,
       senha,
+      onSubmit,
     };
   },
 });
 </script>
 
 <style scoped>
-@import url('https://rsms.me/inter/inter-ui.css');
-
 .page {
   background: #e2e2e5;
   display: flex;
@@ -151,11 +178,5 @@ export default defineComponent({
     width: 100%;
     max-height: 350px;
   }
-}
-path {
-  fill: none;
-  stroke: url(#linearGradient);
-  stroke-width: 4;
-  stroke-dasharray: 240 1386;
 }
 </style>

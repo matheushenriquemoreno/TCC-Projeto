@@ -1,6 +1,7 @@
 ﻿using Cliente.Repository.Interfaces;
 using Infra.Data.Context;
 using Infra.Data.Repository.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cliente.Repository.Implementacoes
 {
@@ -8,6 +9,22 @@ namespace Cliente.Repository.Implementacoes
     {
         public ClienteRepository(AppDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task GerenciarEnderecoCliente(Entities.Cliente cliente)
+        {
+
+            if(cliente.Endereco is not null && cliente.Endereco.Id > 0)
+            {
+                _context.Entry(cliente.Endereco).State = EntityState.Modified;
+            }
+            else
+            {
+                cliente.Endereco = new Entities.Endereco();
+                _context.Entry(cliente.Endereco).State = EntityState.Added;
+            }
+
+            await Salvar();
         }
     }
 }

@@ -39,6 +39,7 @@ builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IServiceToken, ServiceToken>();
+builder.Services.AddSingleton<IServiceCriptografia, ServiceCriptografia>();
 
 builder.Services
     .AddCors(options =>

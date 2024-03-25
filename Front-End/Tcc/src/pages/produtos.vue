@@ -2,14 +2,22 @@
   <q-page class="row">
     <div class="col-12 text-center q-mt-sm">
       <span class="text-h4"> Aproveite as melhores ofertas</span>
-      <div class="q-pa-lg row items-start q-gutter-md">
+      <div
+        class="q-pa-lg row items-start q-gutter-md"
+        v-if="produtos?.length > 0"
+      >
         <ProdutoCompra
-          v-for="produto in produtos"
-          :key="produto.id"
-          :label="produto.nome"
-          :preco="produto.preco"
-          :descricao="produto.descricao"
-          :url-image="produto.urlImagens[0]"
+          v-for="item in produtos"
+          :key="item.id"
+          :produto="item"
+        />
+      </div>
+      <div class="q-pa-md" v-else>
+        <q-inner-loading
+          :showing="true"
+          label="Por favor aquarde"
+          label-class="text-teal"
+          label-style="font-size: 1.1em"
         />
       </div>
     </div>
@@ -29,7 +37,7 @@ export default defineComponent({
   components: { ProdutoCompra },
   setup() {
     const router = useRoute();
-    const produtos = ref<Array<Produto>>();
+    const produtos = ref<Array<Produto>>([]);
     const service = ObterServiceProduto();
     const getCategoria = () => {
       const categoria = router.params['IdCategoria'];

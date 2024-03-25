@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Application.Exceptions;
 using Domain.Entites.Erro;
+using Domain.Excecoes;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 namespace Middleware;
@@ -40,8 +41,8 @@ public class ErrorMiddleware
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
                     result.AdicionarErro(error.Message);
                     break;
-                case KeyNotFoundException e:
-                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                case ValidatorException:
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
                     result.AdicionarErro(error.Message);
                     break;
                 default:

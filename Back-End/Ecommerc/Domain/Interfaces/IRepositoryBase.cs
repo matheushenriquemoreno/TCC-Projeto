@@ -14,6 +14,7 @@ namespace Domain.Interfaces
         Task<IEnumerable<T>> ObterTodosAsync();
         Task<PaginacaoDados<T>> ObterTodosPaginadosAsync(Paginacao pagiancao);
         Task<IEnumerable<T>> ObterTodosOnde(Expression<Func<T, bool>> expression);
+        Task<T> ObterOnde(Expression<Func<T, bool>> expression);
         Task<T> ObterPorIdAsync(int id);
         Task<T> Adicionar(T entidade);
         Task<T> Atualizar(T entidade);

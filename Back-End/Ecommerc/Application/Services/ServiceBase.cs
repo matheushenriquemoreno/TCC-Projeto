@@ -38,13 +38,15 @@ namespace Application.Services
                 await _validator.ValidateAndThrowAsync(entity);
         }
 
-        public virtual async Task Adicionar(TInput entity)
+        public virtual async Task<TEntity> Adicionar(TInput entity)
         {
             var entidade = mapper.Map<TInput, TEntity>(entity);
 
             await ValidarAdicionar(entidade);
 
             await _repository.Adicionar(entidade);
+
+            return entidade;
         }
         #endregion
 
@@ -56,7 +58,7 @@ namespace Application.Services
                 await _validator.ValidateAndThrowAsync(entity);
         }
 
-        public virtual async Task Atualizar(TInput entity)
+        public virtual async Task<TEntity> Atualizar(TInput entity)
         {
             var entidade = await _repository.ObterPorIdAsync(entity.Id ?? 0);
 
@@ -67,7 +69,7 @@ namespace Application.Services
 
             await ValidarAtualizar(entidadeUpdate);
 
-            await _repository.Atualizar(entidadeUpdate);
+            return await _repository.Atualizar(entidadeUpdate);
         }
 
         #endregion

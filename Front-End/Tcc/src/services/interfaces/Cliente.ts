@@ -8,3 +8,14 @@ export interface Cliente {
   genero: number;
   senha: string;
 }
+
+export interface LoginUser {
+  email: string;
+  senha: string;
+}
+
+export interface UserLogado {
+  token: string;
+  nome: string;
+  idCliente: number;
+}

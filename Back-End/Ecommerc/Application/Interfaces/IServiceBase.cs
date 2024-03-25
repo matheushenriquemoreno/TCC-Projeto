@@ -10,8 +10,8 @@ public interface IServiceBase<TEntity, TInput, TOutPut, IRepository>
     where TOutPut : IOutPutEntity<TEntity>
     where IRepository : IRepositoryBase<TEntity>
 {
-    Task Adicionar(TInput entity);
-    Task Atualizar(TInput entity);
+    Task<TEntity> Adicionar(TInput entity);
+    Task<TEntity> Atualizar(TInput entity);
     Task Remover(int id);
     Task<TOutPut> ObterPeloId(int id);
     Task<IEnumerable<TOutPut>> ObterTodos();
