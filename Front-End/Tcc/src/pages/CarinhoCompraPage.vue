@@ -16,8 +16,8 @@
         <ProdutoCarinho :item="item" />
       </div>
     </div>
-    <div class="col-md-2 col-11">
-      <q-card class="my-card" flat bordered>
+    <div class="col-md-4 col-11">
+      <q-card class="my-card q-mb-sm" flat bordered>
         <q-item>
           <q-item-section class="text-center">
             <q-item-label>Resumo</q-item-label>
@@ -49,7 +49,7 @@
             icon="shopping_cart"
             label="Finalizar Pedido"
             color="green"
-            to="/CarinhoCompra"
+            to="/FinalizarPedido"
             v-close-popup
           />
         </q-card-actions>

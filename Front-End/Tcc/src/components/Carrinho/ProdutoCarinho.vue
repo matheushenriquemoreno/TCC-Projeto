@@ -1,6 +1,6 @@
 <template>
   <q-card flat bordered class="my-card">
-    <q-card-section horizontal style="height: 160px">
+    <q-card-section horizontal style="height: 150px">
       <img
         class="col-4"
         :src="item.produto.urlImage"
@@ -82,3 +82,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  height: 200px
+</style>

@@ -1,38 +1,51 @@
 <template>
-  <q-card>
-    <div class="q-pa-md q-gutter-sm"><q-icon name="person" /> Minha Conta</div>
-    <q-card-section>
-      <q-form class="row justify-center q-gutter-sm">
-        <div class="col-11">
-          <q-input
-            outlined
-            v-model="clienteUpdate.nomeCompleto"
-            label="nomeCompleto"
-          />
+  <q-card flat>
+    <div class="q-pa-md q-gutter-sm">
+      <q-breadcrumbs class="text-dark" active-color="dark">
+        <template v-slot:separator>
+          <q-icon size="1.2em" name="arrow_forward" color="teal" />
+        </template>
+        <q-breadcrumbs-el label="Usuário" />
+        <q-breadcrumbs-el label="Dados" icon="pin_drop" />
+      </q-breadcrumbs>
+    </div>
+    <q-form>
+      <q-card-section>
+        <div class="row">
+          <div class="col-sm-12 col-12 q-pa-sm">
+            <q-input v-model="clienteUpdate.nomeCompleto" label="Nome" />
+          </div>
+          <div class="col-sm-6 col-12 q-pa-sm">
+            <q-input v-model="clienteUpdate.cpf" label="CPF" />
+          </div>
+          <div class="col-sm-6 col-12 q-pa-sm">
+            <q-input
+              v-model="clienteUpdate.email"
+              label="E-mail"
+              :rules="rulesEmail"
+            />
+          </div>
+          <div class="col-sm-4 col-12 q-pa-sm">
+            <q-input
+              v-model="clienteUpdate.dataNascimento"
+              label="Data Nascimento"
+            />
+          </div>
+          <div class="col-sm-4 col-12 q-pa-sm">
+            <q-input v-model="clienteUpdate.telefone" label="Telefone" />
+          </div>
         </div>
-        <div class="col-11">
-          <q-input outlined v-model="clienteUpdate.cpf" label="CPF" />
-        </div>
-        <div class="col-11">
-          <q-input
-            outlined
-            v-model="clienteUpdate.email"
-            label="email"
-            :rules="rulesEmail"
-          />
-        </div>
-        <div class="col-11">
-          <q-input
-            outlined
-            v-model="clienteUpdate.dataNascimento"
-            label="dataNascimento"
-          />
-        </div>
-        <div class="col-11">
-          <q-input outlined v-model="clienteUpdate.telefone" label="telefone" />
-        </div>
-      </q-form>
-    </q-card-section>
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn
+          class="q-mb-sm"
+          label="Salvar"
+          icon="save"
+          color="teal"
+          type="submit"
+        />
+      </q-card-actions>
+    </q-form>
   </q-card>
 </template>
 
@@ -88,12 +101,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.page {
-  background: #e2e2e5;
-  height: calc(100%);
-  place-content: center;
-  width: calc(100%);
-}
-</style>

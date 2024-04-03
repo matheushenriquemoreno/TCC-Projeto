@@ -22,7 +22,6 @@ public class ClienteController :
         return Ok();
     }
 
-
     [HttpPost("AdicionarELogar")]
     public async Task<ActionResult<ResultLogin>> AdicionarELogar([FromBody] ClienteCreate input)
     {

@@ -18,6 +18,7 @@ const routes: RouteRecordRaw[] = [
         path: '/CarinhoCompra',
         component: () => import('src/pages/CarinhoCompraPage.vue'),
       },
+
       {
         path: '/usuario',
         component: () => import('src/pages/Usuario/GuiaUsuario.vue'),
@@ -41,6 +42,7 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+
   {
     path: '/login',
     component: () => import('pages/Login/LoginPage.vue'),
@@ -52,6 +54,11 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'cadastro',
         component: () => import('pages/Login/CadastroLoginUsuario.vue'),
+      },
+      {
+        path: '/FinalizarPedido',
+        component: () =>
+          import('src/pages/FinalizarPedido/FinalizarPedidoPage.vue'),
       },
     ],
   },

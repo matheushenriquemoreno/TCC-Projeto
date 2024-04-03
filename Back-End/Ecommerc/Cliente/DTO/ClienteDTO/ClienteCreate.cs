@@ -13,7 +13,6 @@ public class ClienteCreate : IInputEntity<Entities.Cliente>
     public int Genero { get; set; }
     public string Senha { get; set; }
 
-
     public void Mapear()
     {
     }

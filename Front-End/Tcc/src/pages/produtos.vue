@@ -1,11 +1,8 @@
 <template>
-  <q-page class="row">
-    <div class="col-12 text-center q-mt-sm">
+  <q-page padding>
+    <div class="text-center q-pa-sm">
       <span class="text-h4"> Aproveite as melhores ofertas</span>
-      <div
-        class="q-pa-lg row items-start q-gutter-md"
-        v-if="produtos?.length > 0"
-      >
+      <div class="row q-gutter-sm q-mt-md" v-if="produtos?.length > 0">
         <ProdutoCompra
           v-for="item in produtos"
           :key="item.id"
@@ -63,9 +60,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="sass" scoped>
-.my-card
-  width: 100%
-  max-width: 300px
-</style>

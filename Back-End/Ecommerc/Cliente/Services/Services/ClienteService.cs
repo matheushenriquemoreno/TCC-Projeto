@@ -42,8 +42,10 @@ namespace Cliente.Services.Services
             validator.ValidateAndThrow(endereco);
 
             cliente.Endereco = endereco;
+            cliente.IdEndereco = endereco.Id;
 
             await _repository.GerenciarEnderecoCliente(cliente);
+            await _repository.Atualizar(cliente);
         }
 
         public override async Task ValidarAdicionar(Entities.Cliente entity)

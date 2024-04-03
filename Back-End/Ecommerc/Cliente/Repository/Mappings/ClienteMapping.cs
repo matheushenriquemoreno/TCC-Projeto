@@ -17,9 +17,9 @@ namespace Cliente.Repository.Maping
 
             builder.Navigation(x => x.Endereco).AutoInclude();
 
-                    builder.HasOne(x => x.Endereco)
-                .WithOne(x => x.Cliente)
-                .HasForeignKey<Entities.Cliente>(x => x.IdEndereco).IsRequired(false);
+            builder.HasOne(x => x.Endereco)
+         .WithOne(x => x.Cliente)
+         .HasForeignKey<Entities.Cliente>(x => x.IdEndereco).IsRequired(false);
         }
     }
 }

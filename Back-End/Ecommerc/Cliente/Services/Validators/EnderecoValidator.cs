@@ -11,7 +11,7 @@ public class EnderecoValidator : AbstractValidator<Endereco>
         RuleFor(x => x.Rua).NotEmpty();
         RuleFor(x => x.Bairro).NotEmpty();
         RuleFor(x => x.Estado).NotEmpty();
-        RuleFor(x => x.Complemento).NotEmpty();
+        RuleFor(x => x.Cidade).NotEmpty();
     }
 }
 

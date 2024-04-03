@@ -1,16 +1,14 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 import { Cliente, LoginUser, UserLogado } from './interfaces/Cliente';
 import { ResultErro } from './interfaces/Result';
 import { Notify } from 'quasar';
+import obterAxios from './Base/ObterAxios';
 
 export class ServiceCliente {
   api: AxiosInstance;
 
   constructor() {
-    this.api = axios.create({
-      baseURL: 'https://localhost:7115/api',
-      timeout: 1000,
-    });
+    this.api = obterAxios('https://localhost:7115/api');
   }
   async cadastrarCliente(cliente: Cliente) {
     const result = await this.api.post<UserLogado>(
@@ -19,7 +17,10 @@ export class ServiceCliente {
     );
     return result.data as UserLogado;
   }
-
+  async cadastrarEnderecoCliente(endereco: any) {
+    const result = await this.api.post('/Cliente/GerenciarEndereco', endereco);
+    return result.status === 200;
+  }
   async obterPeloId(id: number) {
     const result = await this.api.get('/Cliente/' + id);
     return result.data as Cliente;

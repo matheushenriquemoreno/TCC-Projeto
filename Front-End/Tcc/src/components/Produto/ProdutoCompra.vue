@@ -1,18 +1,18 @@
 <template>
-  <q-card class="my-card" flat bordered>
-    <q-img
-      class="imagemProduto"
+  <q-card class="my-card text-center" flat bordered>
+    <img
+      style="height: 180px; width: 100%; object-fit: scale-down"
       :src="
         produto.urlImagens[0] ||
         'https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png'
       "
     />
-    <q-rating v-model="stars" color="teal" :max="5" size="32px" />
+    <div>
+      <q-rating v-model="stars" color="teal" :max="5" size="25px" />
+    </div>
     <div>
       <q-card-section>
-        <div class="row no-wrap items-center">
-          <div class="" style="font-size: 20px">{{ produto.nome }}</div>
-        </div>
+        <span class="" style="font-size: 16px">{{ produto.nome }}</span>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -26,18 +26,17 @@
             }}</b
           >
         </div>
-        <div class="text-caption text-grey">
-          {{ produto.descricao }}
-        </div>
       </q-card-section>
 
-      <q-card-actions class="row no-wrap justify-center">
+      <q-card-actions class="justify-center">
         <q-btn
           outline
           unelevated
+          dense
+          no-caps
           class="text-center"
           color="teal"
-          label="Adicionar no carinho"
+          label="Adicionar no Carinho"
           @click="() => adicionarProduto(produto)"
         />
       </q-card-actions>
@@ -85,8 +84,6 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 .my-card
-  width: 100%
-  max-width: 300px
+  width: 250px
+  height: 375px
 </style>
-
-<style scoped></style>

@@ -82,27 +82,24 @@ namespace Cliente.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Bairro")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CEP")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cidade")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Complemento")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Estado")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Numero")
+                        .HasColumnType("int");
+
                     b.Property<string>("Rua")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -121,8 +118,7 @@ namespace Cliente.Migrations
 
             modelBuilder.Entity("Entities.Endereco", b =>
                 {
-                    b.Navigation("Cliente")
-                        .IsRequired();
+                    b.Navigation("Cliente");
                 });
 #pragma warning restore 612, 618
         }

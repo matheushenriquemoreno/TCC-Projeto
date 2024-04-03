@@ -10,6 +10,7 @@ using Cliente.Repository.Implementacoes;
 using Cliente.Services.Interfaces;
 using Cliente.Services.Services;
 using Cliente.DTO.Login;
+using Application.MapingConfig;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,8 @@ builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IServiceToken, ServiceToken>();
 builder.Services.AddSingleton<IServiceCriptografia, ServiceCriptografia>();
+
+ConfigurarMapeamento.Configure(Assembly.GetExecutingAssembly());
 
 builder.Services
     .AddCors(options =>

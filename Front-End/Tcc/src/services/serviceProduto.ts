@@ -1,14 +1,12 @@
-import axios, { AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 import Produto from './interfaces/Produto';
+import obterAxios from './Base/ObterAxios';
 
 class ServiceProduto {
   api: AxiosInstance;
 
   constructor() {
-    this.api = axios.create({
-      baseURL: 'https://localhost:7017/api',
-      timeout: 1000,
-    });
+    this.api = obterAxios('https://localhost:7017/api');
   }
   async ObterProdutos() {
     const result = await this.api.get<Array<Produto>>('/Produto');

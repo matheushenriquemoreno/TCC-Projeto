@@ -13,14 +13,12 @@ namespace Cliente.Repository.Implementacoes
 
         public async Task GerenciarEnderecoCliente(Entities.Cliente cliente)
         {
-
-            if(cliente.Endereco is not null && cliente.Endereco.Id > 0)
+            if(cliente.Endereco.Id > 0)
             {
                 _context.Entry(cliente.Endereco).State = EntityState.Modified;
             }
             else
             {
-                cliente.Endereco = new Entities.Endereco();
                 _context.Entry(cliente.Endereco).State = EntityState.Added;
             }
 
