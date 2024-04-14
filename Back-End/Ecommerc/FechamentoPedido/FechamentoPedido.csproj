@@ -12,9 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Entities\Pedidos\" />
-    <Folder Include="Services\Implementacoes\" />
   </ItemGroup>
 
   <ItemGroup>

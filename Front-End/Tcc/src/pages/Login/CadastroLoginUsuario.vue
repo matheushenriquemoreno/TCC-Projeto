@@ -1,7 +1,7 @@
 <template>
   <q-page class="page">
     <div class="row justify-center">
-      <q-card class="my-card" bordered style="width: 400px; margin-top: 50px">
+      <q-card class="my-card" bordered style="width: 400px">
         <q-card-section class="text-center bg-grey-2">
           <div><b>Identificação</b></div>
         </q-card-section>
@@ -169,7 +169,6 @@ import ObterServiceCliente from 'src/services/serviceCliente';
 import useUsuarioLogado from 'src/stores/UsuarioLogadoStore';
 import { computed, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import CadastroUsuario from 'src/components/Usuario/CadastroUsuario.vue';
 
 function verificarForcaSenha(senha: string): number {
   // Verificar comprimento mínimo

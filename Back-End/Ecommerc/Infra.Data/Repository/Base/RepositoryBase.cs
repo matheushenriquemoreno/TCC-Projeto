@@ -20,7 +20,7 @@ namespace Infra.Data.Repository.Base
 
         public virtual async Task<T> ObterPorIdAsync(int id)
         {
-            return await Entidade().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return await Entidade().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task<IEnumerable<T>> ObterTodosOnde(Expression<Func<T, bool>> expression)
@@ -35,7 +35,7 @@ namespace Infra.Data.Repository.Base
 
         public Task<T> ObterOnde(Expression<Func<T, bool>> expression)
         {
-            return Entidade().AsNoTracking().FirstOrDefaultAsync(expression);
+            return Entidade().FirstOrDefaultAsync(expression);
         }
 
         public virtual async Task<IEnumerable<T>> ObterTodosAsync()
@@ -61,7 +61,9 @@ namespace Infra.Data.Repository.Base
 
         public virtual async Task<T> Atualizar(T entidade)
         {
-            Entidade().Attach(entidade);
+            if (!EntidadeAtachada(entidade)) {
+                Entidade().Attach(entidade);
+            }
             _context.Entry(entidade).State = EntityState.Modified;
             await Salvar();
             return await Entidade().FirstOrDefaultAsync(x => x.Id == entidade.Id);
@@ -95,5 +97,13 @@ namespace Infra.Data.Repository.Base
 
             return new PaginacaoDados<T>(dadosPaginados,quantidadePaginas, quantidadeRegistros);
         }
+
+
+        public bool EntidadeAtachada(T entity)
+        {
+            return _context.Set<T>().Local.Any(e => e == entity);
+        }
+
+
     }
 }

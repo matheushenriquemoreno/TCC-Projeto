@@ -2,7 +2,11 @@
   <q-layout view="hHh lpR fFf" class="shadow-2 rounded-borders">
     <q-header elevated class="bg-teal-5 text-dark">
       <q-toolbar>
-        <q-toolbar-title class="text-center">
+        <q-toolbar-title
+          class="text-center"
+          style="cursor: pointer"
+          @click="() => rotas.push('/')"
+        >
           <q-avatar>
             <img :src="logo" />
           </q-avatar>
@@ -19,9 +23,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 import logo from 'src/assets/Logo-1.jpg';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -29,8 +33,10 @@ export default defineComponent({
   components: {},
 
   setup() {
+    const rotas = useRouter();
     return {
       logo,
+      rotas,
     };
   },
 });

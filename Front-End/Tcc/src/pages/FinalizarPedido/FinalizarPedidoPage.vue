@@ -20,11 +20,7 @@
           active-icon="where_to_vote"
         >
           <div class="q-pa-md q-gutter-md">
-            <q-list
-              bordered
-              class="rounded-borders"
-              style="min-width: 300px; max-width: 500px"
-            >
+            <q-list bordered class="rounded-borders">
               <q-item-label header>Confirmar Endereço</q-item-label>
 
               <q-item clickable v-ripple>

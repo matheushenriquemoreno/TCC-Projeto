@@ -7,7 +7,22 @@ namespace FechamentoPedido.Entities.Carrinho
         public CarinhoCompra Carinho { get; set; }
         public int IdProduto { get; set; }
         public ProdutoCarinho Produto { get; set; }
-        public int Quantidade { get; set; }
+        public int Quantidade { get; protected set; }
+
+        public void AumentarQuantidade(int quantidade)
+        {
+            if (quantidade + this.Quantidade > this.Produto.QuantidadeEstoque)
+                throw new InvalidOperationException("Quantidade em estoque insuficiente.");
+            Quantidade += quantidade;
+        }
+
+        public void DiminuirQuantidade(int quantidade)
+        {
+            if (this.Quantidade - quantidade == 0)
+                return;
+
+            this.Quantidade -= quantidade;
+        }
 
         public decimal Valortotal
         {
@@ -22,9 +37,8 @@ namespace FechamentoPedido.Entities.Carrinho
             
         }
 
-        public ItemCarinho(CarinhoCompra carinho, int idProduto, int quantidade)
+        public ItemCarinho(int idProduto, int quantidade)
         {
-            Carinho = carinho;
             IdProduto = idProduto;
             Quantidade = quantidade;
         }

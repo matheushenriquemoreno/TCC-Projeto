@@ -23,13 +23,14 @@ namespace Cliente.Services.Services
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Email, cliente.Email)
+                new Claim(ClaimTypes.Email, cliente.Email),
+                new Claim("Id", cliente.Id.ToString())
             };
 
             var Sectoken = new JwtSecurityToken(issuer: jwtConfiguration.Issuer,
               audience: jwtConfiguration.Issuer,
               claims: claims,
-              expires: DateTime.Now.AddMinutes(120),
+              expires: DateTime.UtcNow.AddHours(2),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(Sectoken);

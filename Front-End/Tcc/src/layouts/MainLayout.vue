@@ -83,11 +83,7 @@
                         </div>
                       </q-item-section>
                     </q-item>
-                    <q-item
-                      clickable
-                      class="GL__menu-link"
-                      @click="() => storeUsuarioLogado.logout()"
-                    >
+                    <q-item clickable class="GL__menu-link" @click="logout">
                       <q-item-section>
                         <div>
                           <q-icon name="logout" />
@@ -235,9 +231,15 @@ export default defineComponent({
     const itensCarinho = computed(() => carinhoStore.quantidadeItens);
     const usuarioLogado = computed(() => storeUsuarioLogado.obterUsuario());
 
+    function logout() {
+      storeUsuarioLogado.logout();
+      rotas.push('/login');
+    }
+
     return {
       itensCarinho,
       avatar,
+      logout,
       usuarioLogado,
       usuarioEstaLogado,
       text,
