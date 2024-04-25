@@ -7,7 +7,7 @@ namespace FechamentoPedido.Repository.Implementacoes;
 
 public class RepositoryCarinho : RepositoryBase<CarinhoCompra>, IRepositoryCarinho
 {
-    public RepositoryCarinho(AppDbContext dbContext) : base(dbContext)
+    public RepositoryCarinho(FechamentoPedidoContext dbContext) : base(dbContext)
     {
     }
 }

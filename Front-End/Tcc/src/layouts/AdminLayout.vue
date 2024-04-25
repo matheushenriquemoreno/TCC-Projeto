@@ -37,10 +37,6 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {
-    EssentialLink,
-  },
-
   setup() {
     const leftDrawerOpen = ref(false);
 

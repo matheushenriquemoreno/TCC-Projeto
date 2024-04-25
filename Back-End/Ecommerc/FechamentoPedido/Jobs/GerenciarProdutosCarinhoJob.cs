@@ -9,7 +9,6 @@ namespace FechamentoPedido.Jobs
         {
             Console.WriteLine("Job executado");
 
-
             return Task.CompletedTask;
         }
     }

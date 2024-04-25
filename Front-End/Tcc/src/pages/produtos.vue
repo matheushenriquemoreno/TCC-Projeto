@@ -1,13 +1,11 @@
 <template>
   <q-page padding>
-    <div class="text-center q-pa-sm">
+    <div class="text-center">
       <span class="text-h4"> Aproveite as melhores ofertas</span>
       <div class="row q-gutter-sm q-mt-md" v-if="produtos?.length > 0">
-        <ProdutoCompra
-          v-for="item in produtos"
-          :key="item.id"
-          :produto="item"
-        />
+        <div v-for="item in produtos" :key="item.id">
+          <ProdutoCompra :produto="item" />
+        </div>
       </div>
       <div class="q-pa-md" v-else>
         <q-inner-loading

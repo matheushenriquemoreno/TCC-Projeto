@@ -12,12 +12,12 @@ public class ProdutoRepository : RepositoryBase<Entities.Produto>, IRepositoryPr
     {
     }
 
-    public override Task<Entities.Produto> Atualizar(Entities.Produto entidade)
-    {
-        var dados = _context.Set<Imagem>().Where(x => x.IdProduto == entidade.Id);
+    //public override Task<Entities.Produto> Atualizar(Entities.Produto entidade)
+    //{
+    //    var dados = _context.Set<Imagem>().Where(x => x.IdProduto == entidade.Id);
 
-        _context.Set<Imagem>().RemoveRange(dados);
+    //    _context.Set<Imagem>().RemoveRange(dados);
 
-        return base.Atualizar(entidade);
-    }
+    //    return base.Atualizar(entidade);
+    //}
 }

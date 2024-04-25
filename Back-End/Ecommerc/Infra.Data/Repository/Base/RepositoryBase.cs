@@ -62,6 +62,7 @@ namespace Infra.Data.Repository.Base
         public virtual async Task<T> Atualizar(T entidade)
         {
             if (!EntidadeAtachada(entidade)) {
+                DesatacharEntidade(entidade.Id);
                 Entidade().Attach(entidade);
             }
             _context.Entry(entidade).State = EntityState.Modified;
@@ -104,6 +105,10 @@ namespace Infra.Data.Repository.Base
             return _context.Set<T>().Local.Any(e => e == entity);
         }
 
-
+        public void DesatacharEntidade(int id)
+        {
+            var item = _context.Set<T>().Local.First(e => e.Id == id);
+            _context.Set<T>().Local.Remove(item);
+        }
     }
 }

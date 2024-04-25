@@ -64,7 +64,6 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   },
   {
     path: '/:catchAll(.*)*',

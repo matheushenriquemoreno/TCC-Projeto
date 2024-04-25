@@ -10,5 +10,6 @@ namespace FechamentoPedido.Entities.Carrinho
         public decimal Preco { get; set; }
         public int QuantidadeEstoque { get; set; }
         public string UrlImagePrincipal { get; set; }
+        public List<ItemCarinho> Itens { get; set; }
     }
 }

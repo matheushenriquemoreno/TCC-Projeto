@@ -8,13 +8,13 @@ namespace FechamentoPedido.Entities.Carrinho
         public List<ItemCarinho> Produtos { get; set; }
         public int IdCliente { get; set; }
 
-        public void AumentarQuantidadeProduto(int idProduto, int quantidade)
+        public void AumentarQuantidadeProduto(int idProdutoCarinho, int quantidade)
         {
-            var item = this.Produtos.FirstOrDefault(x => x.IdProduto == idProduto);
+            var item = this.Produtos.FirstOrDefault(x => x.IdProdutoCarinho == idProdutoCarinho);
 
             if(item is null)
             {
-                item = new ItemCarinho(idProduto, quantidade);
+                item = new ItemCarinho(idProdutoCarinho, quantidade);
 
                 this.Produtos.Add(item);
             }
@@ -26,7 +26,7 @@ namespace FechamentoPedido.Entities.Carrinho
 
         public void DiminuirQuantidade(int idProduto, int quantidade)
         {
-            var item = this.Produtos.First(x => x.IdProduto == idProduto);
+            var item = this.Produtos.First(x => x.IdProdutoCarinho == idProduto);
 
             if (item.Quantidade - quantidade == 0)
             {

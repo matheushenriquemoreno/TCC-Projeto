@@ -1,16 +1,30 @@
-
-
+using System.Text.Json.Serialization;
 using FechamentoPedido.Jobs;
+using FechamentoPedido.Repository;
+using FechamentoPedido.Repository.Implementacoes;
+using FechamentoPedido.Repository.Interfaces;
+using FechamentoPedido.Services.Implementacoes;
+using FechamentoPedido.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<FechamentoPedidoContext>(x =>
+{
+    x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IRepositoryProdutoCarinho, RepositoryProdutoCarinho>();
+builder.Services.AddScoped<IRepositoryCarinho, RepositoryCarinho>();
+
+builder.Services.AddScoped<IServiceProduto, ServicoProduto>();
+builder.Services.AddScoped<IServiceCarinho, ServiceCarinho>();
 
 
 #region Quartz
@@ -35,7 +49,7 @@ builder.Services.AddQuartz(q => {
      .WithIdentity("GerenciamentoProdutos")
      .StartNow()
      .WithDailyTimeIntervalSchedule(x => x.WithInterval(10, IntervalUnit.Second))
-     .WithDescription("Gerencia adição de produtos")
+     .WithDescription("Gerencia Adição e atualização de produtos")
  );
 });
 

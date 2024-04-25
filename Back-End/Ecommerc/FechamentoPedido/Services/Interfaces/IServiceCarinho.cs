@@ -6,5 +6,6 @@ namespace FechamentoPedido.Services.Interfaces
     public interface IServiceCarinho
     {
         Task AdicionarItemCarinho(ItemCarinhoDTO item);
+        Task<CarinhoOutPut> ObterCarinhoDoUsuarioLogado();
     }
 }

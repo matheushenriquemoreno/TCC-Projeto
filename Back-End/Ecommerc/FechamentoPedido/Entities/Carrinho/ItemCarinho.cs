@@ -5,7 +5,9 @@ namespace FechamentoPedido.Entities.Carrinho
     public class ItemCarinho : EntityBase
     {
         public CarinhoCompra Carinho { get; set; }
-        public int IdProduto { get; set; }
+        public int IdCarinho { get; set; }
+
+        public int IdProdutoCarinho { get; set; }
         public ProdutoCarinho Produto { get; set; }
         public int Quantidade { get; protected set; }
 
@@ -31,15 +33,14 @@ namespace FechamentoPedido.Entities.Carrinho
                 return Quantidade * Produto.Preco;
             }
         }
-
-        public ItemCarinho()
+        protected ItemCarinho()
         {
             
         }
 
-        public ItemCarinho(int idProduto, int quantidade)
+        public ItemCarinho(int idProdutoCarinho, int quantidade)
         {
-            IdProduto = idProduto;
+            IdProdutoCarinho = idProdutoCarinho;
             Quantidade = quantidade;
         }
     }

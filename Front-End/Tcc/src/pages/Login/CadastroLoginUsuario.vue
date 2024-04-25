@@ -1,7 +1,7 @@
 <template>
   <q-page class="page">
     <div class="row justify-center">
-      <q-card class="my-card" bordered style="width: 400px">
+      <q-card class="my-card q-mt-lg" bordered style="width: 400px">
         <q-card-section class="text-center bg-grey-2">
           <div><b>Identificação</b></div>
         </q-card-section>
@@ -190,7 +190,7 @@ function verificarForcaSenha(senha: string): number {
   if (possuiNumero) forca = forca = forca + 0.2;
   if (possuiCaractereEspecial) forca = forca + 0.2;
 
-  return forca; // Retorna um valor entre 1 e 4, indicando a força da senha
+  return forca; // Retorna um valor entre 0.2 a 1, indicando a força da senha
 }
 
 function converterDataBRParaDate(dataBR: string) {
@@ -300,7 +300,6 @@ export default defineComponent({
 .page {
   background: #e2e2e5;
   height: calc(100%);
-  place-content: center;
   width: calc(100%);
 }
 </style>

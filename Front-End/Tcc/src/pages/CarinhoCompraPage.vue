@@ -72,7 +72,6 @@ export default defineComponent({
     const carinhoStore = useCarinhoCompraStore();
     carinhoStore.obterCarinho();
     const carinho = computed(() => carinhoStore.carinho);
-    const itensCarinho = computed(() => carinhoStore.quantidadeItens);
 
     return {
       rotas,

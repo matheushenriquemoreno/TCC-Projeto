@@ -113,21 +113,15 @@ export default defineComponent({
   background: #e2e2e5;
   display: flex;
   flex-direction: column;
-  height: calc(100%);
   position: absolute;
   place-content: center;
+  padding-bottom: 100px;
   width: calc(100%);
-}
-@media (max-width: 767px) {
-  .page {
-    height: auto;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-  }
+  height: calc(100%);
 }
 .container {
   display: flex;
-  height: 320px;
+  height: 360px;
   margin: 0 auto;
   width: 640px;
 }

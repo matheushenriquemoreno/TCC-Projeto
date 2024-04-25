@@ -33,15 +33,12 @@ builder.Services.AddDbContext<ClienteDbContext>(x =>
 TypeAdapterConfig.GlobalSettings.Default.PreserveReference(true);
 
 builder.Services.AddScoped<AppDbContext, ClienteDbContext>();
-
-builder.Services.RegistrarValidadores(Assembly.GetExecutingAssembly());
-
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IServiceToken, ServiceToken>();
 builder.Services.AddSingleton<IServiceCriptografia, ServiceCriptografia>();
 
+builder.Services.RegistrarValidadores(Assembly.GetExecutingAssembly());
 ConfigurarMapeamento.Configure(Assembly.GetExecutingAssembly());
 
 builder.Services

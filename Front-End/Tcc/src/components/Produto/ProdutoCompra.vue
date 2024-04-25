@@ -1,5 +1,5 @@
 <template>
-  <q-card class="my-card text-center" flat bordered>
+  <q-card class="q-pa-sm my-card text-center" flat bordered>
     <img
       style="height: 180px; width: 100%; object-fit: scale-down"
       :src="
@@ -85,5 +85,5 @@ export default defineComponent({
 <style lang="sass" scoped>
 .my-card
   width: 250px
-  height: 375px
+  height: 400px
 </style>

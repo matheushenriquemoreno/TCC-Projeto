@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center">
+  <div class="row justify-center q-mt-lg">
     <div class="q-pa-md col-lg-8 col-sm-11 col col-12">
       <q-stepper
         v-model="step"
@@ -8,8 +8,9 @@
         active-color="teal"
         done-color="dark"
         active-icon="edit_note"
+        class="q-pa-lg shadowPayment"
       >
-        <q-step :done="step > 1" :name="1" prefix="1" title="Carinho"></q-step>
+        <q-step :done="step > 1" :name="1" prefix="1" title="Carrinho"></q-step>
         <q-step :done="step > 2" :name="2" prefix="2" title="Login"></q-step>
 
         <q-step
@@ -71,10 +72,111 @@
           </div>
         </q-step>
 
-        <q-step :name="4" prefix="4" title="Finalizar"> </q-step>
+        <q-step :name="4" prefix="4" title="Finalizar">
+          <div class="row justify-center">
+            <div class="col-12 q-pa-md">
+              <div class="row justify-center">
+                <div class="col-md-7 col-12 q-pa-sm">
+                  <q-list padding>
+                    <q-item-label
+                      header
+                      class="text-dark"
+                      style="font-size: 17px"
+                    >
+                      <q-icon name="credit_card" size="sm" color="brown-6" />
+                      Metodos de pagamento</q-item-label
+                    >
+
+                    <q-item class="bg-grey-4" tag="label" v-ripple>
+                      <q-item-section side top>
+                        <q-radio v-model="pagamento" :val="1" />
+                      </q-item-section>
+
+                      <q-item-section>
+                        <q-item-label>Page via pix</q-item-label>
+                        <q-item-label caption>
+                          O QR Code para pagamento será gerado após a conclusão
+                          do pedido.
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item tag="label" class="bg-grey-4 q-mt-sm" v-ripple>
+                      <q-item-section side top>
+                        <q-radio v-model="pagamento" :val="2" />
+                      </q-item-section>
+
+                      <q-item-section>
+                        <q-item-label>Boleto Bancario</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </div>
+                <div class="col-md-5 col-12 q-pa-sm">
+                  <q-card class="my-card q-mb-sm" flat bordered>
+                    <q-item>
+                      <q-item-section class="text-center">
+                        <q-item-label class="text-h6">Resumo</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-separator />
+
+                    <q-card-section class="text-center">
+                      <div class="row justify-between q-mb-sm">
+                        <span class="text-subtitle1">Subtotal</span>
+                        <span class="text-dark"
+                          ><b>{{
+                            carinho.valorTotal.toLocaleString('pt-br', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            })
+                          }}</b></span
+                        >
+                      </div>
+                      <div class="row justify-between q-mb-sm">
+                        <span class="text-subtitle1">Desconto</span>
+                        <span class="text-dark"
+                          ><b>{{
+                            desconto.toLocaleString('pt-br', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            })
+                          }}</b></span
+                        >
+                      </div>
+                      <div class="row justify-between q-mb-sm">
+                        <span class="text-subtitle1">Frete padrão</span>
+                        <span class="text-dark"
+                          ><b>{{
+                            valorFretePadrao.toLocaleString('pt-br', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            })
+                          }}</b></span
+                        >
+                      </div>
+                      <div class="row justify-between q-mb-sm">
+                        <span class="text-subtitle1">Total</span>
+                        <span class="text-green"
+                          ><b>{{
+                            total.toLocaleString('pt-br', {
+                              style: 'currency',
+                              currency: 'BRL',
+                            })
+                          }}</b></span
+                        >
+                      </div>
+                    </q-card-section>
+                  </q-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </q-step>
 
         <template v-slot:navigation>
-          <q-stepper-navigation>
+          <q-stepper-navigation class="row justify-between">
             <q-btn
               v-if="step > 3"
               flat
@@ -87,7 +189,7 @@
               class="q-ml-sm"
               @click="stepper.next()"
               color="teal"
-              :label="step === 4 ? 'Finalizar' : 'Continue'"
+              :label="step === 4 ? 'Finalizar Pagamento' : 'Continue'"
             />
           </q-stepper-navigation>
         </template>
@@ -97,14 +199,39 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useCarinhoCompraStore } from 'src/stores/CarinhoCompraStore';
 export default {
   name: 'FinalizarPedidoPage',
   setup() {
+    const carinhoStore = useCarinhoCompraStore();
+    carinhoStore.obterCarinho();
+    const carinho = computed(() => carinhoStore.carinho);
+    const pagamento = ref(1);
+    const valorFretePadrao = 30;
+    const desconto = computed(() => {
+      return carinho.value.valorTotal * 0.1;
+    });
+    const total = computed(() => {
+      return carinho.value.valorTotal - desconto.value + valorFretePadrao;
+    });
+
     return {
       step: ref(3),
       stepper: ref(),
+      carinho,
+      pagamento,
+      valorFretePadrao,
+      desconto,
+      total,
     };
   },
 };
 </script>
+
+<style scoped>
+.shadowPayment {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+}
+</style>
