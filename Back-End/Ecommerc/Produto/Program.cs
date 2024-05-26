@@ -40,6 +40,8 @@ builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IRepositoryProduto, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 
+builder.Services.AddScoped<IServiceFilaProduto, ServiceFilaProduto>();
+
 ConfigurarMapeamento.Configure(Assembly.GetExecutingAssembly());
 
 builder.Services

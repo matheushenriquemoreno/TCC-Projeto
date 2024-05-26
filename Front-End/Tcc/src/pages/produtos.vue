@@ -2,7 +2,7 @@
   <q-page padding>
     <div class="text-center">
       <span class="text-h4"> Aproveite as melhores ofertas</span>
-      <div class="row q-gutter-sm q-mt-md" v-if="produtos?.length > 0">
+      <div class="row q-gutter-sm q-mt-sm" v-if="produtos?.length > 0">
         <div v-for="item in produtos" :key="item.id">
           <ProdutoCompra :produto="item" />
         </div>

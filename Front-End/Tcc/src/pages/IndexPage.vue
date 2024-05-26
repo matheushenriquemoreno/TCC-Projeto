@@ -8,7 +8,7 @@
           arrows
           navigation
           infinite
-          style="height: 650px"
+          style="height: 400px"
         >
           <q-carousel-slide
             :name="1"

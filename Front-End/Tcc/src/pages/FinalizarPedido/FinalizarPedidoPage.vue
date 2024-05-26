@@ -10,8 +10,8 @@
         active-icon="edit_note"
         class="q-pa-lg shadowPayment"
       >
-        <q-step :done="step > 1" :name="1" prefix="1" title="Carrinho"></q-step>
-        <q-step :done="step > 2" :name="2" prefix="2" title="Login"></q-step>
+        <q-step :done="step > 1" :name="1" prefix="1" title="Login"></q-step>
+        <q-step :done="step > 2" :name="2" prefix="2" title="Carrinho"></q-step>
 
         <q-step
           :done="step > 3"
@@ -93,7 +93,7 @@
                       </q-item-section>
 
                       <q-item-section>
-                        <q-item-label>Page via pix</q-item-label>
+                        <q-item-label>Pague via pix</q-item-label>
                         <q-item-label caption>
                           O QR Code para pagamento será gerado após a conclusão
                           do pedido.
@@ -107,7 +107,7 @@
                       </q-item-section>
 
                       <q-item-section>
-                        <q-item-label>Boleto Bancario</q-item-label>
+                        <q-item-label>Boleto Bancário</q-item-label>
                       </q-item-section>
                     </q-item>
                   </q-list>
@@ -176,12 +176,22 @@
         </q-step>
 
         <template v-slot:navigation>
-          <q-stepper-navigation class="row justify-between">
+          <q-stepper-navigation
+            :class="step === 4 ? 'row justify-between' : ''"
+          >
             <q-btn
-              v-if="step > 3"
+              v-if="step >= 3"
               flat
               color="dark"
-              @click="stepper.previous()"
+              @click="
+                () => {
+                  if (step === 3) {
+                    router.push('/CarinhoCompra');
+                  } else {
+                    stepper.previous();
+                  }
+                }
+              "
               label="Voltar"
               icon="arrow_back_ios"
             />
@@ -199,13 +209,23 @@
 </template>
 
 <script lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, onUpdated, ref } from 'vue';
 import { useCarinhoCompraStore } from 'src/stores/CarinhoCompraStore';
+import { useRouter } from 'vue-router';
 export default {
   name: 'FinalizarPedidoPage',
   setup() {
+    const router = useRouter();
     const carinhoStore = useCarinhoCompraStore();
-    carinhoStore.obterCarinho();
+
+    onMounted(async () => {
+      await carinhoStore.obterCarinho();
+    });
+
+    onUpdated(async () => {
+      await carinhoStore.obterCarinho();
+    });
+
     const carinho = computed(() => carinhoStore.carinho);
     const pagamento = ref(1);
     const valorFretePadrao = 30;
@@ -224,6 +244,7 @@ export default {
       valorFretePadrao,
       desconto,
       total,
+      router,
     };
   },
 };

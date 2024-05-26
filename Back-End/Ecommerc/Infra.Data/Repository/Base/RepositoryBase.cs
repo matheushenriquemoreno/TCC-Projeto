@@ -61,10 +61,17 @@ namespace Infra.Data.Repository.Base
 
         public virtual async Task<T> Atualizar(T entidade)
         {
+            // Necessario para quando não e utilizado o AsNoTracking na busca de dados.
+            // Verifico se existe uma entidade ja atachada diferente da atual passada por parametros
             if (!EntidadeAtachada(entidade)) {
-                DesatacharEntidade(entidade.Id);
+                
+                //Removo essa entidade do contexto local do Entity 
+                DesatacharEntidadeEntity(entidade.Id);
+                
+                // Atacho a entidade que vai ser atualizada.
                 Entidade().Attach(entidade);
             }
+
             _context.Entry(entidade).State = EntityState.Modified;
             await Salvar();
             return await Entidade().FirstOrDefaultAsync(x => x.Id == entidade.Id);
@@ -105,9 +112,15 @@ namespace Infra.Data.Repository.Base
             return _context.Set<T>().Local.Any(e => e == entity);
         }
 
-        public void DesatacharEntidade(int id)
+        public bool EntidadeExisteLocal(T entity)
+        {
+            return _context.Set<T>().Local.Any(e => e.Id == entity.Id);
+        }
+
+        public void DesatacharEntidadeEntity(int id)
         {
             var item = _context.Set<T>().Local.First(e => e.Id == id);
+
             _context.Set<T>().Local.Remove(item);
         }
     }

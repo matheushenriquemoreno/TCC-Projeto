@@ -25,7 +25,7 @@ namespace Produto.Controllers
             return Ok();
         }
 
-        [HttpGet("Id:int")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> ObterPorId(int id) => Ok(await _service.ObterPeloId(id));
 
         [HttpGet]
@@ -49,7 +49,7 @@ namespace Produto.Controllers
             return Ok();
         }
 
-        [HttpDelete("Id:int")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> RemoverCategoria(int id)
         {
             await _service.Remover(id);

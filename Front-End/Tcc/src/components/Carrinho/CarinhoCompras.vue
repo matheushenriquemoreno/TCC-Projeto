@@ -10,7 +10,10 @@
       <q-separator />
 
       <q-card-section class="q-mt-sm">
-        <div v-for="item in carinho.produtos" :key="item.produto.idProduto">
+        <div
+          v-for="item in carinho.produtos"
+          :key="item.produtoCarinho.idProduto"
+        >
           <ProdutoCarinho :item="item" />
         </div>
       </q-card-section>
@@ -28,7 +31,7 @@
               <span class="text-subtitle1">Valor Total</span>
               <span class="text-green"
                 ><b>{{
-                  carinho.valorTotal.toLocaleString('pt-br', {
+                  (carinho.valorTotal ?? 0).toLocaleString('pt-br', {
                     style: 'currency',
                     currency: 'BRL',
                   })
@@ -56,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, onMounted, onUpdated, ref } from 'vue';
 import ProdutoCarinho from './ProdutoCarinho.vue';
 import { useCarinhoCompraStore } from 'src/stores/CarinhoCompraStore';
 
@@ -80,7 +83,6 @@ export default defineComponent({
   },
   setup() {
     const carinhoStore = useCarinhoCompraStore();
-    carinhoStore.obterCarinho();
     const carinho = computed(() => carinhoStore.carinho);
     const itensCarinho = computed(() => carinhoStore.quantidadeItens);
 

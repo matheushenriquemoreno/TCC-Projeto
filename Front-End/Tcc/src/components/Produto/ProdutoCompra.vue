@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-sm my-card text-center" flat bordered>
+  <q-card class="my-card text-center" flat bordered>
     <img
       style="height: 180px; width: 100%; object-fit: scale-down"
       :src="
@@ -67,7 +67,7 @@ export default defineComponent({
       carinhoStore.adicionarNoCarinho(produto);
 
       $q.notify({
-        message: 'Ação realizada com sucesso!',
+        message: 'Produto adicionado ao carrino!',
         caption: produto.nome,
         type: 'positive',
       });
@@ -84,6 +84,6 @@ export default defineComponent({
 
 <style lang="sass" scoped>
 .my-card
-  width: 250px
-  height: 400px
+  width: 200px
+  height: 390px
 </style>

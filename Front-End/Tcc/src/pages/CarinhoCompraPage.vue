@@ -2,7 +2,7 @@
   <div class="row items-center justify-center q-mt-md">
     <div class="col-8">
       <q-icon name="shopping_cart" color="teal" size="sm" />
-      <span class="text-h6 q-ml-sm">Meu carinho</span>
+      <span class="text-h6 q-ml-sm">Meu Carrinho</span>
     </div>
   </div>
 
@@ -11,7 +11,7 @@
       <div
         class="q-mb-lg"
         v-for="item in carinho.produtos"
-        :key="item.produto.idProduto"
+        :key="item.produtoCarinho.idProduto"
       >
         <ProdutoCarinho :item="item" />
       </div>

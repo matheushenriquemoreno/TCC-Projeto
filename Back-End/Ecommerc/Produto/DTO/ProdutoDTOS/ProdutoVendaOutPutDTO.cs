@@ -3,7 +3,7 @@ using Mapster;
 
 namespace Produto.DTO.ProdutoDTOS
 {
-    public class ProdutoVenda : IOutPutEntity<Entities.Produto>
+    public class ProdutoVendaOutPutDTO : IOutPutEntity<Entities.Produto>
     {
         public int Id { get; set; }
         public string Nome { get; set; }
@@ -13,7 +13,7 @@ namespace Produto.DTO.ProdutoDTOS
 
         public void Mapear()
         {
-            TypeAdapterConfig<Entities.Produto, ProdutoVenda>.NewConfig()
+            TypeAdapterConfig<Entities.Produto, ProdutoVendaOutPutDTO>.NewConfig()
                      .BeforeMapping((a, b) =>
                      {
                          b.UrlImagens = a.Imagens.Select(x => x.Url).ToList();

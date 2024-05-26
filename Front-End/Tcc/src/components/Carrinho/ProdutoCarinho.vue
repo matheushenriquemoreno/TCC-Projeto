@@ -3,14 +3,14 @@
     <q-card-section horizontal style="height: 150px">
       <img
         class="col-4"
-        :src="item.produto.urlImage"
+        :src="item.produtoCarinho.urlImagePrincipal"
         style="object-fit: scale-down"
       />
       <q-card-section
         style="height: 150px"
         class="text-center col-8 self-center text-weight-bold text-body1"
       >
-        {{ item.produto.nome }}
+        {{ item.produtoCarinho.nome }}
       </q-card-section>
     </q-card-section>
 
@@ -24,7 +24,7 @@
           round
           icon="remove"
           size="md"
-          @click="() => carinhoStore.diminuirQuantidade(item.produto.idProduto)"
+          @click="() => carinhoStore.diminuirQuantidade(item.produtoCarinho.idProduto)"
         />
         <q-chip square color="grey" style="font-size: 17"
           ><b>{{ item.quantidade }}</b></q-chip
@@ -34,7 +34,7 @@
           icon="add"
           size="md"
           @click="
-            () => carinhoStore.adicionarQuantidade(item.produto.idProduto)
+            () => carinhoStore.adicionarQuantidade(item.produtoCarinho.idProduto)
           "
         />
         <q-btn
@@ -42,14 +42,14 @@
           icon="delete"
           size="md"
           @click="
-            () => carinhoStore.removerProdutoCarinho(item.produto.idProduto)
+            () => carinhoStore.removerProdutoCarinho(item.produtoCarinho.idProduto)
           "
         />
       </div>
       <div>
         <b class="text-teal">
           {{
-            (item.produto.preco * item.quantidade).toLocaleString('pt-br', {
+            (item.produtoCarinho.preco * item.quantidade).toLocaleString('pt-br', {
               style: 'currency',
               currency: 'BRL',
             })

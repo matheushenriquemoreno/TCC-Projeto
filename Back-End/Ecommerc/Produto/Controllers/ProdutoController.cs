@@ -41,7 +41,7 @@ namespace Produto.Controllers
             return Ok();
         }
 
-        [HttpDelete("Id:int")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> RemoverProduto(int id)
         {
             await _service.Remover(id);

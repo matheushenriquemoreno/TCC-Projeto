@@ -10,7 +10,6 @@ namespace FechamentoPedido.Services.Implementacoes
         IRepositoryProdutoCarinho repositoryProdutoCarinho,
         IServiceProduto serviceProduto) : IServiceCarinho
     {
-        
         public async Task AdicionarItemCarinho(ItemCarinhoDTO item)
         {
             var produto = await repositoryProdutoCarinho.ObterOnde(x => x.IdProduto == item.IdProduto);
@@ -41,6 +40,17 @@ namespace FechamentoPedido.Services.Implementacoes
             await repositoryCarinho.Atualizar(carinho);
         }
 
+        public async Task DiminuirItemCarinho(ItemCarinhoDTO item)
+        {
+            CarinhoCompra carinho = await repositoryCarinho.ObterOnde(x => x.IdCliente == 1);
+
+            var produto = await repositoryProdutoCarinho.ObterOnde(x => x.IdProduto == item.IdProduto);
+
+            carinho.DiminuirQuantidade(produto.Id, item.Quantidade);
+
+            await repositoryCarinho.Atualizar(carinho);
+        }
+
         public async Task<CarinhoOutPut> ObterCarinhoDoUsuarioLogado()
         {
             var carinho = await repositoryCarinho.ObterOnde(x => x.IdCliente == 1);
@@ -56,6 +66,17 @@ namespace FechamentoPedido.Services.Implementacoes
                     };
                 }).ToList()
             };
+        }
+
+        public async Task RemoverItemCarinho(ItemCarinhoDTO item)
+        {
+            CarinhoCompra carinho = await repositoryCarinho.ObterOnde(x => x.IdCliente == 1);
+
+            var produto = await repositoryProdutoCarinho.ObterOnde(x => x.IdProduto == item.IdProduto);
+
+            carinho.RemoverProduto(produto.Id);
+
+            await repositoryCarinho.Atualizar(carinho);
         }
     }
 }

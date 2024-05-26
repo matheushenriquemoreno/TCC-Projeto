@@ -38,6 +38,13 @@ namespace FechamentoPedido.Entities.Carrinho
             }
         }
 
+        public void RemoverProduto(int idProduto)
+        {
+            var produtoRemover = this.Produtos.FirstOrDefault(x => x.IdProdutoCarinho == idProduto);
+           
+            Produtos.Remove(produtoRemover);
+        }
+
         public decimal Valortotal
         {
             get

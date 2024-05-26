@@ -201,7 +201,7 @@
 
 <script lang="ts">
 import useUsuarioLogado from 'src/stores/UsuarioLogadoStore';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, onMounted, onUpdated, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import CarinhoCompras from 'src/components/Carrinho/CarinhoCompras.vue';
 
@@ -215,7 +215,6 @@ export default defineComponent({
 
   setup() {
     const carinhoStore = useCarinhoCompraStore();
-    carinhoStore.obterCarinho();
 
     const text = ref('');
     const options = ref<any>();
@@ -230,6 +229,14 @@ export default defineComponent({
     );
     const itensCarinho = computed(() => carinhoStore.quantidadeItens);
     const usuarioLogado = computed(() => storeUsuarioLogado.obterUsuario());
+
+    onMounted(async () => {
+      await carinhoStore.obterCarinho();
+    });
+
+    onUpdated(async () => {
+      await carinhoStore.obterCarinho();
+    });
 
     function logout() {
       storeUsuarioLogado.logout();

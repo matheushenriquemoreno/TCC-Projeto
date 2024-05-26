@@ -15,7 +15,6 @@ builder.Services.AddDbContext<FechamentoPedidoContext>(x =>
     x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,36 +24,41 @@ builder.Services.AddScoped<IRepositoryCarinho, RepositoryCarinho>();
 
 builder.Services.AddScoped<IServiceProduto, ServicoProduto>();
 builder.Services.AddScoped<IServiceCarinho, ServiceCarinho>();
-
+builder.Services.AddScoped<IServiceIntegracaoProdutos, ServiceIntegracaoProdutos>();
 
 #region Quartz
 
-builder.Services.Configure<QuartzOptions>(options =>
+builder.Services.AddQuartz(q =>
 {
-    options.Scheduling.IgnoreDuplicates = true; // default: false
-    options.Scheduling.OverWriteExistingData = true; // default: true
-});
-
-
-builder.Services.AddQuartz(q => {
-
-    q.UseSimpleTypeLoader();
-    q.UseInMemoryStore();
-    q.UseDefaultThreadPool(tp =>
-    {
-        tp.MaxConcurrency = 10;
-    });
+    q.UseMicrosoftDependencyInjectionJobFactory();
 
     q.ScheduleJob<GerenciarProdutosCarinhoJob>(trigger => trigger
      .WithIdentity("GerenciamentoProdutos")
      .StartNow()
-     .WithDailyTimeIntervalSchedule(x => x.WithInterval(10, IntervalUnit.Second))
-     .WithDescription("Gerencia Adição e atualização de produtos")
- );
+     .WithDailyTimeIntervalSchedule(x => x.WithInterval(5, IntervalUnit.Second))
+     .WithDescription("Gerencia Adição e atualização de produtos"));
+}
+);
+
+builder.Services.AddQuartzHostedService(options =>
+{
+    options.WaitForJobsToComplete = true;
 });
+
 
 #endregion
 
+builder.Services
+    .AddCors(options =>
+    {
+        options.AddDefaultPolicy(policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+    });
 
 var app = builder.Build();
 
@@ -64,7 +68,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

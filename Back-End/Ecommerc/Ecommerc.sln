@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{9608DA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{57C7A403-5772-4FAE-8E5C-EEECFD9F9EB5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce-APIGateway", "Ecommerce-APIGateway\Ecommerce-APIGateway.csproj", "{4E02A878-6F3D-42CD-B7E6-E353ED315BAA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{288AADA5-20D9-42D1-BA73-272DA37B2AD7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{12B3DA4F-7752-4AB2-88EC-9C2BB916005D}"
@@ -33,9 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiHelppers", "WebApiHel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FechamentoPedido", "FechamentoPedido\FechamentoPedido.csproj", "{5BA45BD1-3671-4BE6-A861-CD4F179920F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pagamento", "Pagamento\Pagamento.csproj", "{3E1782B3-9C38-47CD-BE22-C1A23D3DD922}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pagamento", "Pagamento\Pagamento.csproj", "{3E1782B3-9C38-47CD-BE22-C1A23D3DD922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logística", "Logística\Logística.csproj", "{F45BF89F-B654-44F9-A31F-50F115C6C5CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logística", "Logística\Logística.csproj", "{F45BF89F-B654-44F9-A31F-50F115C6C5CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +41,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4E02A878-6F3D-42CD-B7E6-E353ED315BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E02A878-6F3D-42CD-B7E6-E353ED315BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E02A878-6F3D-42CD-B7E6-E353ED315BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E02A878-6F3D-42CD-B7E6-E353ED315BAA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{288AADA5-20D9-42D1-BA73-272DA37B2AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{288AADA5-20D9-42D1-BA73-272DA37B2AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{288AADA5-20D9-42D1-BA73-272DA37B2AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU

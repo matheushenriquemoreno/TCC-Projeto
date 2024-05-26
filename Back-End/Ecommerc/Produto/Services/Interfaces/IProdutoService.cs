@@ -9,6 +9,6 @@ namespace Produto.Services.Interfaces
         Entities.Produto, ProdutoInputDTO, ProdutoOutPutDTO, IRepositoryProduto>
     {
 
-        public Task<List<ProdutoVenda>> ObterProdutosPorCategoria(int categoriaId);
+        public Task<List<ProdutoVendaOutPutDTO>> ObterProdutosPorCategoria(int categoriaId);
     }
 }

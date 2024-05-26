@@ -2,6 +2,7 @@
 using Application.Services;
 using MapsterMapper;
 using Produto.DTO.ProdutoDTOS;
+using Produto.Entities;
 using Produto.Repository.Interfaces;
 using Produto.Services.Interfaces;
 
@@ -10,14 +11,19 @@ namespace Produto.Services.Implementacoes;
 public class ProdutoService : ServiceBase<Entities.Produto, ProdutoInputDTO, ProdutoOutPutDTO, IRepositoryProduto>,
     IProdutoService
 {
-    public ProdutoService(IRepositoryProduto repository, IMapper mapper) : base(repository, mapper)
+
+    private readonly IServiceFilaProduto serviceFilaProduto;
+
+    public ProdutoService(IRepositoryProduto repository, IMapper mapper, IServiceFilaProduto serviceFilaProduto) : base(repository, mapper)
     {
+        this.serviceFilaProduto = serviceFilaProduto;
     }
+
     public override async Task<Entities.Produto> Adicionar(ProdutoInputDTO entity)
     {
         var produto = await base.Adicionar(entity);
 
-        // Adicionar aqui a chamada para a fila
+        await serviceFilaProduto.AdicionarMensagemDeCriacao(produto);
 
         return produto;
     }
@@ -26,7 +32,7 @@ public class ProdutoService : ServiceBase<Entities.Produto, ProdutoInputDTO, Pro
     {
         var produto = await base.Atualizar(entity);
 
-        // Adicionar aqui a chamada para a fila
+        await serviceFilaProduto.AdicionarMensagemDeAtualizacao(produto);
 
         return produto;
     }
@@ -35,13 +41,13 @@ public class ProdutoService : ServiceBase<Entities.Produto, ProdutoInputDTO, Pro
     {
         await base.Remover(id);
 
-        // Adicionar aqui a chamada para a fila
+        await serviceFilaProduto.AdicionarMensagemRemocao(id);
     }
 
-    public async Task<List<ProdutoVenda>> ObterProdutosPorCategoria(int categoriaId)
+    public async Task<List<ProdutoVendaOutPutDTO>> ObterProdutosPorCategoria(int categoriaId)
     {
         var dados = await _repository.ObterTodosOnde(x => x.IdCategoria == categoriaId);
 
-        return mapper.Map<List<ProdutoVenda>>(dados);
+        return mapper.Map<List<ProdutoVendaOutPutDTO>>(dados.ToList());
     }
 }

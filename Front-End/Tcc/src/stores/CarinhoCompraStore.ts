@@ -5,6 +5,8 @@ import {
   ProdutoCarinho,
 } from 'src/services/interfaces/CarinhoDeCompra';
 import Produto from 'src/services/interfaces/Produto';
+import useUsuarioLogado from './UsuarioLogadoStore';
+import { ObterServicoCarrinho } from 'src/services/ServiceCarinho';
 
 const carinho: CarinhoCompra = {
   produtos: [],
@@ -19,37 +21,47 @@ export const useCarinhoCompraStore = defineStore('CarinhoCompraStore', {
     quantidadeItens: (state) => state.carinho.produtos.length,
   },
   actions: {
-    adicionarNoCarinho(produto: Produto) {
-      const indexProduto = this.carinho.produtos.findIndex(
-        (x) => x.produto.idProduto === produto.id
-      );
+    async adicionarNoCarinho(produto: Produto) {
+      const userStore = useUsuarioLogado();
+      const serviceCarrinho = ObterServicoCarrinho();
 
-      if (indexProduto >= 0) {
-        const produtoExistente = this.carinho.produtos[indexProduto];
-        produtoExistente.quantidade += 1;
-        this.carinho.produtos[indexProduto] = produtoExistente;
+      if (userStore.usuarioEstaLogado()) {
+        await serviceCarrinho.adicionarProdutoCarinho(produto.id, 1);
+
+        this.carinho = await serviceCarrinho.obterProdutosCarinho();
       } else {
-        const produtoCarinho: ProdutoCarinho = {
-          idProduto: produto.id,
-          nome: produto.nome,
-          preco: produto.preco,
-          urlImage: produto.urlImagens[0],
-        };
+        const indexProduto = this.carinho.produtos.findIndex(
+          (x) => x.produtoCarinho.idProduto === produto.id
+        );
 
-        const itemCarinho: ItemCarinho = {
-          produto: produtoCarinho,
-          quantidade: 1,
-        };
+        if (indexProduto >= 0) {
+          const produtoExistente = this.carinho.produtos[indexProduto];
+          produtoExistente.quantidade += 1;
+          this.carinho.produtos[indexProduto] = produtoExistente;
+        } else {
+          const produtoCarinho: ProdutoCarinho = {
+            idProduto: produto.id,
+            nome: produto.nome,
+            preco: produto.preco,
+            urlImagePrincipal: produto.urlImagens[0],
+            descricao: produto.descricao,
+          };
 
-        this.carinho.produtos.push(itemCarinho);
+          const itemCarinho: ItemCarinho = {
+            produtoCarinho: produtoCarinho,
+            quantidade: 1,
+          };
+
+          this.carinho.produtos.push(itemCarinho);
+        }
+
+        this.setarValorTotal();
+        localStorage.setItem('carinho', JSON.stringify(this.carinho));
       }
-
-      this.setarValorTotal();
-      localStorage.setItem('carinho', JSON.stringify(this.carinho));
     },
     adicionarQuantidade(idProduto: number) {
       const indexProduto = this.carinho.produtos.findIndex(
-        (x) => x.produto.idProduto === idProduto
+        (x) => x.produtoCarinho.idProduto === idProduto
       );
       if (indexProduto >= 0) {
         const produtoExistente = this.carinho.produtos[indexProduto];
@@ -61,7 +73,7 @@ export const useCarinhoCompraStore = defineStore('CarinhoCompraStore', {
     },
     diminuirQuantidade(idProduto: number) {
       const indexProduto = this.carinho.produtos.findIndex(
-        (x) => x.produto.idProduto === idProduto
+        (x) => x.produtoCarinho.idProduto === idProduto
       );
 
       if (indexProduto >= 0) {
@@ -79,7 +91,7 @@ export const useCarinhoCompraStore = defineStore('CarinhoCompraStore', {
     },
     removerProdutoCarinho(idProduto: number) {
       this.carinho.produtos = this.carinho.produtos.filter(
-        (x) => x.produto.idProduto != idProduto
+        (x) => x.produtoCarinho.idProduto != idProduto
       );
       this.setarValorTotal();
       localStorage.setItem('carinho', JSON.stringify(this.carinho));
@@ -88,17 +100,24 @@ export const useCarinhoCompraStore = defineStore('CarinhoCompraStore', {
       let valor = 0;
 
       this.carinho.produtos.forEach((x) => {
-        valor += x.produto.preco * x.quantidade;
+        valor += x.produtoCarinho.preco * x.quantidade;
       });
 
       this.carinho.valorTotal = valor;
     },
     async obterCarinho() {
-      const carinho = localStorage.getItem('carinho');
-      if (carinho) {
-        this.carinho = JSON.parse(carinho!) as CarinhoCompra;
+      const userStore = useUsuarioLogado();
+      const serviceCarrinho = ObterServicoCarrinho();
+      if (userStore.usuarioEstaLogado()) {
+        this.carinho = await serviceCarrinho.obterProdutosCarinho();
+        console.log(this.carinho);
+      } else {
+        const carinho = localStorage.getItem('carinho');
+        if (carinho) {
+          this.carinho = JSON.parse(carinho!) as CarinhoCompra;
+        }
+        return this.carinho;
       }
-      return this.carinho;
     },
   },
 });

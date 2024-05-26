@@ -1,12 +1,13 @@
 export interface ProdutoCarinho {
   idProduto: number;
   nome: string;
-  urlImage: string;
+  descricao: string;
+  urlImagePrincipal: string;
   preco: number;
 }
 
 export interface ItemCarinho {
-  produto: ProdutoCarinho;
+  produtoCarinho: ProdutoCarinho;
   quantidade: number;
 }
 
