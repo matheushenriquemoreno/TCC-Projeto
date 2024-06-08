@@ -13,12 +13,12 @@ namespace FechamentoPedido.Services.Implementacoes
 
         public async Task<ProdutoCarinho> AdicionarPedidoViaIntegracao(int idProduto)
         {
-            var produtoExisteBase = await repositoryProdutoCarinho.ObterOnde(x => x.IdProduto == idProduto) is ProdutoCarinho;
+            var produtoJaExiste = await repositoryProdutoCarinho.ProdutoExiste(idProduto);
 
-            if (produtoExisteBase)
+            if (produtoJaExiste)
                 return await AtualizarPedidoViaIntegracao(idProduto);
 
-            var produto = await $"{_urlApiProduto}"
+            var produto = await "https://localhost:7017/api/Produto"
                 .SetQueryParams(new { id = idProduto })
                 .GetJsonAsync<ProdutoDTO>();
 

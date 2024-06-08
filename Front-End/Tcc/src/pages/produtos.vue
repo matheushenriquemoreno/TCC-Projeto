@@ -44,8 +44,6 @@ export default defineComponent({
       return parseInt(categoria);
     };
 
-    console.log(getCategoria());
-
     onMounted(async () => {
       produtos.value = await service.ObterProdutosPelaCategoria(getCategoria());
     });

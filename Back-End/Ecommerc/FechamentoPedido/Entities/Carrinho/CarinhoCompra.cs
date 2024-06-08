@@ -45,7 +45,7 @@ namespace FechamentoPedido.Entities.Carrinho
             Produtos.Remove(produtoRemover);
         }
 
-        public decimal Valortotal
+        public decimal ValorTotal
         {
             get
             {

@@ -44,7 +44,7 @@ namespace Produto.Services.Implementacoes
                             arguments: null);
         }
 
-        public Task AdicionarMensagemDeAtualizacao(Entities.Produto produto)
+        public Task AdicionarProdutoAtualizadoNaFila(Entities.Produto produto)
         {
             var payload = ConverterJsonProduto(produto);
 
@@ -55,22 +55,23 @@ namespace Produto.Services.Implementacoes
             return Task.CompletedTask;
         }
 
-        public Task AdicionarMensagemDeCriacao(Entities.Produto produto)
+        public Task AdicionarProdutoCriadoNaFila(Entities.Produto produto)
         {
-            var payload = ConverterJsonProduto(produto);
-            var byteArray = Encoding.UTF8.GetBytes(payload);
+            var produtoJson = JsonConvert.SerializeObject(produto, Formatting.Indented);
 
-            _channel.BasicPublish(string.Empty, QueueCriarProduto, null, byteArray);
+            var byteArray = Encoding.UTF8.GetBytes(produtoJson);
+
+            _channel.BasicPublish(string.Empty, "Produto-Criado", null, byteArray);
 
             return Task.CompletedTask;
         }
 
-        public Task AdicionarMensagemRemocao(int idProduto)
+        public Task AdicionarProdutoRemovidoFila(int idProduto)
         {
             var payload = JsonConvert.SerializeObject(new { IdProduto = idProduto });
             var byteArray = Encoding.UTF8.GetBytes(payload);
 
-            _channel.BasicPublish(string.Empty, QueueRemoverProduto, null, byteArray);
+            _channel.BasicPublish(string.Empty, "Criacao-Produto", null, byteArray);
 
             return Task.CompletedTask;
         }

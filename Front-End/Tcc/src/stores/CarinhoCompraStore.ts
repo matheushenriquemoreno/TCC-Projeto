@@ -110,14 +110,13 @@ export const useCarinhoCompraStore = defineStore('CarinhoCompraStore', {
       const serviceCarrinho = ObterServicoCarrinho();
       if (userStore.usuarioEstaLogado()) {
         this.carinho = await serviceCarrinho.obterProdutosCarinho();
-        console.log(this.carinho);
       } else {
         const carinho = localStorage.getItem('carinho');
         if (carinho) {
           this.carinho = JSON.parse(carinho!) as CarinhoCompra;
         }
-        return this.carinho;
       }
+      return this.carinho;
     },
   },
 });

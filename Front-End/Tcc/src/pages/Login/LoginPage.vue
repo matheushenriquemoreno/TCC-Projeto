@@ -4,7 +4,7 @@
       <div class="left">
         <div class="login">Login</div>
         <div class="eula">
-          Seja bem vindo(a), realize seu login para continuar.
+          Seja bem-vindo(a), realize seu login para continuar.
         </div>
       </div>
       <div class="right row">

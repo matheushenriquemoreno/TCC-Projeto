@@ -48,7 +48,7 @@
       <q-card-actions align="center">
         <q-btn
           icon="shopping_cart"
-          label="Ir para o carinho"
+          label="Ir para o carrinho"
           color="green"
           to="/CarinhoCompra"
           v-close-popup

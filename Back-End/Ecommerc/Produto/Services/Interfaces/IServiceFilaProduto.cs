@@ -2,8 +2,8 @@
 {
     public interface IServiceFilaProduto
     {
-        Task AdicionarMensagemDeCriacao(Entities.Produto produto);
-        Task AdicionarMensagemDeAtualizacao(Entities.Produto produto);
-        Task AdicionarMensagemRemocao(int idProduto);
+        Task AdicionarProdutoCriadoNaFila(Entities.Produto produto);
+        Task AdicionarProdutoAtualizadoNaFila(Entities.Produto produto);
+        Task AdicionarProdutoRemovidoFila(int idProduto);
     }
 }

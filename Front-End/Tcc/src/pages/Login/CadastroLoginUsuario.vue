@@ -153,7 +153,7 @@
               class="text-dark text-center col-11 q-mt-lg"
               style="cursor: pointer"
               @click="router.push('/Login')"
-              >Ja possui conta?</span
+              >Já possui conta?</span
             >
           </q-card-actions>
         </q-form>

@@ -1,12 +1,8 @@
 using System.Reflection;
-using Application.Interfaces;
-using Application.Interfaces.Mapeamento;
 using Application.MapingConfig;
 using Infra.Data.Context;
 using Mapster;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Middleware;
 using Produto.Repository.Context;
 using Produto.Repository.Implementacoes;

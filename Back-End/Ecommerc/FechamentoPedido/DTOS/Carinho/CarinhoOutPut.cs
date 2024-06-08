@@ -6,7 +6,7 @@ namespace FechamentoPedido.DTOS.Carinho
     {
         public List<ItemCarinhoOutPut> Produtos { get; set; }
 
-        public decimal Valortotal
+        public decimal ValorTotal
         {
             get
             {

@@ -36,7 +36,7 @@
           no-caps
           class="text-center"
           color="teal"
-          label="Adicionar no Carinho"
+          label="Adicionar no Carrinho"
           @click="() => adicionarProduto(produto)"
         />
       </q-card-actions>
@@ -67,7 +67,7 @@ export default defineComponent({
       carinhoStore.adicionarNoCarinho(produto);
 
       $q.notify({
-        message: 'Produto adicionado ao carrino!',
+        message: 'Produto adicionado ao carrinho!',
         caption: produto.nome,
         type: 'positive',
       });

@@ -31,7 +31,7 @@
             <span class="text-subtitle1">Valor Total</span>
             <span class="text-green"
               ><b>{{
-                carinho.valorTotal.toLocaleString('pt-br', {
+                carinho.valorTotal?.toLocaleString('pt-br', {
                   style: 'currency',
                   currency: 'BRL',
                 })
@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import { useCarinhoCompraStore } from 'src/stores/CarinhoCompraStore';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, onMounted, onUpdated } from 'vue';
 import { useRouter } from 'vue-router';
 import ProdutoCarinho from 'src/components/Carrinho/ProdutoCarinho.vue';
 
@@ -70,8 +70,12 @@ export default defineComponent({
   setup() {
     const rotas = useRouter();
     const carinhoStore = useCarinhoCompraStore();
-    carinhoStore.obterCarinho();
     const carinho = computed(() => carinhoStore.carinho);
+
+    onMounted(async () => {
+      await carinhoStore.obterCarinho();
+      console.log(carinho.value);
+    });
 
     return {
       rotas,

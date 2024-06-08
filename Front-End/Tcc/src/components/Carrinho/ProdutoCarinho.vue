@@ -24,7 +24,9 @@
           round
           icon="remove"
           size="md"
-          @click="() => carinhoStore.diminuirQuantidade(item.produtoCarinho.idProduto)"
+          @click="
+            () => carinhoStore.diminuirQuantidade(item.produtoCarinho.idProduto)
+          "
         />
         <q-chip square color="grey" style="font-size: 17"
           ><b>{{ item.quantidade }}</b></q-chip
@@ -34,7 +36,8 @@
           icon="add"
           size="md"
           @click="
-            () => carinhoStore.adicionarQuantidade(item.produtoCarinho.idProduto)
+            () =>
+              carinhoStore.adicionarQuantidade(item.produtoCarinho.idProduto)
           "
         />
         <q-btn
@@ -42,17 +45,21 @@
           icon="delete"
           size="md"
           @click="
-            () => carinhoStore.removerProdutoCarinho(item.produtoCarinho.idProduto)
+            () =>
+              carinhoStore.removerProdutoCarinho(item.produtoCarinho.idProduto)
           "
         />
       </div>
       <div>
         <b class="text-teal">
           {{
-            (item.produtoCarinho.preco * item.quantidade).toLocaleString('pt-br', {
-              style: 'currency',
-              currency: 'BRL',
-            })
+            (item.produtoCarinho.preco * item.quantidade).toLocaleString(
+              'pt-br',
+              {
+                style: 'currency',
+                currency: 'BRL',
+              }
+            )
           }}</b
         >
       </div>
@@ -63,7 +70,7 @@
 <script lang="ts">
 import { ItemCarinho } from 'src/services/interfaces/CarinhoDeCompra';
 import { useCarinhoCompraStore } from 'src/stores/CarinhoCompraStore';
-import { PropType, defineComponent, ref } from 'vue';
+import { PropType, defineComponent, ref, onMounted, onUpdated } from 'vue';
 
 export default defineComponent({
   name: 'ProdutoCarinho',
@@ -77,7 +84,7 @@ export default defineComponent({
   },
   setup() {
     const carinhoStore = useCarinhoCompraStore();
-    carinhoStore.obterCarinho();
+
     return { carinhoStore };
   },
 });

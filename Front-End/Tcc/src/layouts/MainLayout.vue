@@ -139,7 +139,7 @@
         <!---->
         <q-btn flat dense push>
           <div class="row items-center no-wrap">
-            <div class="text-center text-overline">Outro esportes</div>
+            <div class="text-center text-overline">Outros esportes</div>
             <q-icon name="expand_more" size="16px" class="q-ml-sm" />
 
             <q-menu auto-close>
@@ -230,13 +230,6 @@ export default defineComponent({
     const itensCarinho = computed(() => carinhoStore.quantidadeItens);
     const usuarioLogado = computed(() => storeUsuarioLogado.obterUsuario());
 
-    onMounted(async () => {
-      await carinhoStore.obterCarinho();
-    });
-
-    onUpdated(async () => {
-      await carinhoStore.obterCarinho();
-    });
 
     function logout() {
       storeUsuarioLogado.logout();

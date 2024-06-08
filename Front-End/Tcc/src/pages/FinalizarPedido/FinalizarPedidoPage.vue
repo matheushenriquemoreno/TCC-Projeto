@@ -84,7 +84,7 @@
                       style="font-size: 17px"
                     >
                       <q-icon name="credit_card" size="sm" color="brown-6" />
-                      Metodos de pagamento</q-item-label
+                      Métodos de Pagamento</q-item-label
                     >
 
                     <q-item class="bg-grey-4" tag="label" v-ripple>

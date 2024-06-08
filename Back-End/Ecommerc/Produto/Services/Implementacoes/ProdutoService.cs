@@ -23,7 +23,7 @@ public class ProdutoService : ServiceBase<Entities.Produto, ProdutoInputDTO, Pro
     {
         var produto = await base.Adicionar(entity);
 
-        await serviceFilaProduto.AdicionarMensagemDeCriacao(produto);
+        await serviceFilaProduto.AdicionarProdutoCriadoNaFila(produto);
 
         return produto;
     }
@@ -32,7 +32,7 @@ public class ProdutoService : ServiceBase<Entities.Produto, ProdutoInputDTO, Pro
     {
         var produto = await base.Atualizar(entity);
 
-        await serviceFilaProduto.AdicionarMensagemDeAtualizacao(produto);
+        await serviceFilaProduto.AdicionarProdutoAtualizadoNaFila(produto);
 
         return produto;
     }
@@ -41,7 +41,7 @@ public class ProdutoService : ServiceBase<Entities.Produto, ProdutoInputDTO, Pro
     {
         await base.Remover(id);
 
-        await serviceFilaProduto.AdicionarMensagemRemocao(id);
+        await serviceFilaProduto.AdicionarProdutoRemovidoFila(id);
     }
 
     public async Task<List<ProdutoVendaOutPutDTO>> ObterProdutosPorCategoria(int categoriaId)
